@@ -104,6 +104,7 @@ The app's functionality includes:
     * username
     * email
     * Password
+    * pending
 
 * projects: (created projects)
     * id (PK)
@@ -111,9 +112,9 @@ The app's functionality includes:
     * originator (user_id) (FK)
 
 * contributor: (relationship between project originator, their project and allowing a contributor to help)
+    * id (PK)
     * project_id (FK)
     * contributor_id (user_id) (FK)
-    * PRIMARY KEY (project_id, contributor_id)
 
 * tasks: (created tasks connected to project tree relationship)
     * id (PK)
