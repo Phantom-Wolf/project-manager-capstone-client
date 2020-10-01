@@ -1,13 +1,15 @@
-// imports
+// ***** imports *****
+
 import React, { Component } from "react";
 import ValidateForm from "../ValidateForm/ValidateForm";
 import config from "../config";
 import "./Register.css";
 
-// component
+// ***** component *****
+
 export class Register extends Component {
 	constructor(props) {
-		state = {
+		this.state = {
 			username: {
 				value: "",
 				touched: false,
@@ -29,7 +31,7 @@ export class Register extends Component {
 		};
 	}
 
-	// state update
+	// ***** state update *****
 
 	updateUsername(username) {
 		this.setState({ username: { value: username, touched: true } });
@@ -47,7 +49,7 @@ export class Register extends Component {
 		this.setState({ confirmPassword: { value: confirmPassword, touched: true } });
 	}
 
-	// validation
+	// ***** validation *****
 
 	validateUsername() {
 		let inputUsername = this.state.username.value;
@@ -78,8 +80,12 @@ export class Register extends Component {
 		// at least one number, one lowercase and one uppercase letter, one special character
 		// at least eight characters that are letters, numbers or the underscore
 		let passwordformat = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&])[\S]+/;
+		let space = /\s/g.test(inputPassword);
 		if (!inputPassword.match(passwordformat)) {
 			return "Password must contain 1 upper case, lower case, number and special character";
+		}
+		if (space == true) {
+			return "Password cannot have any spaces";
 		}
 	}
 
@@ -91,15 +97,29 @@ export class Register extends Component {
 		}
 	}
 
-	// API call
+	// ***** API call *****
 
 	handleRegister = (e) => {
 		e.preventDefault();
+		// grab values stored in state at time of submission and format them for API call
+		const newUser = {
+			username: this.state.username.value,
+			user_email: this.state.email.value,
+			user_password: this.state.password.value,
+		};
+		// double check that the values exist before sending
+		for (const property in newUser) {
+			if (newUser[property] === "") {
+				this.setState({
+					error: `${property} is not valid`,
+				});
+			}
+		}
 
-		console.log("submitted");
+		console.log(newUser);
 	};
 
-	// helpers
+	// ***** helpers *****
 
 	goToSignin() {
 		window.location = "/SignIn";

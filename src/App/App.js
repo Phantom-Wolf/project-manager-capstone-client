@@ -1,9 +1,9 @@
-// imports
+// ***** imports *****
 
 import React, { Component } from "react";
 import "./App.css";
 import { Switch } from "react-router-dom";
-import Signin from "../Signin/Signin";
+import SignIn from "../SignIn/SignIn";
 import Home from "../Home/Home";
 import Landing from "../Landing/Landing";
 import Project from "../Project/Project";
@@ -11,19 +11,21 @@ import Task from "../Task/Task";
 import PublicOnlyRoute from "../Utils/PublicOnlyRoute";
 import PrivateRoute from "../Utils/PrivateRoute";
 
-// component
+// ***** component *****
+
 export class App extends Component {
 	constructor() {
 		state = {};
 	}
 
-	// routing
+	// ***** routing *****
+
 	renderMainRoutes() {
 		return (
 			<Switch>
 				<PrivateRoute exact path="/" component={Landing} />
 				<PublicOnlyRoute path="/Landing" component={Landing} />
-				<PublicOnlyRoute path="/SignIn" component={Signin} />
+				<PublicOnlyRoute path="/SignIn" component={SignIn} />
 				<PrivateRoute path="/Home" component={Home} />
 				<PrivateRoute path="/Task/:task_id" component={Task} />
 				<PrivateRoute path="/Project/:project_id" component={Project} />

@@ -102,8 +102,8 @@ The app's functionality includes:
 * users: (registered users)
     * id (PK)
     * username
-    * email
-    * Password
+    * user_email
+    * user_password
     * pending
 
 * projects: (created projects)
@@ -116,13 +116,47 @@ The app's functionality includes:
     * project_id (FK)
     * contributor_id (user_id) (FK)
 
-* tasks: (created tasks connected to project tree relationship)
+* tasksParent: (created tasks connected to project tree relationship)
     * id (PK)
     * project_id (FK)
     * title
-    * depth_level
-    * parent 
     * completion_status
+
+* tasksLvlOne: (created tasks connected to project tree relationship)
+    * id (PK)
+    * project_id (FK)
+    * title
+    * parent (FK) (tasksParent_id)
+    * completion_status
+
+* tasksLvlTwo: (created tasks connected to project tree relationship)
+    * id (PK)
+    * project_id (FK)
+    * title
+    * parent (FK) (tasksLvlOne_id)
+    * completion_status
+
+* tasksLvlThree: (created tasks connected to project tree relationship)
+    * id (PK)
+    * project_id (FK)
+    * title
+    * parent (FK) (tasksLvlTwo_id)
+    * completion_status
+
+* tasksLvlFour: (created tasks connected to project tree relationship)
+    * id (PK)
+    * project_id (FK)
+    * title
+    * parent (FK) (tasksLvlThree_id)
+    * completion_status
+
+* tasksLvlFive: (created tasks connected to project tree relationship)
+    * id (PK)
+    * project_id (FK)
+    * title
+    * parent (FK) (tasksLvlFour_id)
+    * completion_status
+
 
 * notes: (notes added to each individual task)
     * id (PK)
