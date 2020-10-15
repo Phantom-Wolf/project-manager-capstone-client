@@ -1,0 +1,9 @@
+.projectBody {
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    min-height: 100vh;
+    height: 100%;
+    background-color: rgb(17, 17, 31);
+    color: whitesmoke;
+}

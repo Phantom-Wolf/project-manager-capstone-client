@@ -3,27 +3,27 @@
 import React, { Component } from "react";
 import "./SignIn.css";
 import TokenService from "../services/token-service";
+import config from "../config";
 
 // ***** component *****
 
 export class SignIn extends Component {
-	constructor(props) {
-		this.state = {
-			username: {
-				value: "",
-				touched: false,
-			},
-			password: {
-				value: "",
-				touched: false,
-			},
-			error: null,
-		};
-	}
+	state = {
+		user_email: {
+			value: "",
+			touched: false,
+		},
+		password: {
+			value: "",
+			touched: false,
+		},
+		error: null,
+	};
 
 	// ***** pre-check *****
 
-	componentDidMount() {
+	componentWillMount() {
+		// check here is not working (changed from did mount to will mount)
 		if (TokenService.hasAuthToken()) {
 			TokenService.clearAuthToken();
 		}
@@ -31,8 +31,8 @@ export class SignIn extends Component {
 
 	// ***** update state *****
 
-	updateUsername(username) {
-		this.setState({ username: { value: username, touched: true } });
+	updateEmail(email) {
+		this.setState({ user_email: { value: email, touched: true } });
 	}
 
 	updatePassword(password) {
@@ -41,17 +41,13 @@ export class SignIn extends Component {
 
 	// ***** validation *****
 
-	validateUsername() {
-		let inputUsername = this.state.username.value;
-		let space = /\s/g.test(inputUsername);
-		if (inputUsername.length === 0) {
-			return "Username is required";
-		} else if (inputUsername.length < 3) {
-			return "Username must be at least 3 characters long";
-		} else if (inputUsername.length > 15) {
-			return "Username cannot exceed 15 characters";
-		} else if (space == true) {
-			return "Check username for spaces";
+	validateEmail() {
+		let inputEmail = this.state.user_email.value;
+		let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+		if (inputEmail.length === 0) {
+			return "Email is required";
+		} else if (!inputEmail.match(mailformat)) {
+			return "Invalid Email Address";
 		}
 	}
 
@@ -64,7 +60,7 @@ export class SignIn extends Component {
 		if (!inputPassword.match(passwordformat)) {
 			return "Password must contain 1 upper case, lower case, number and special character";
 		}
-		if (space == true) {
+		if (space === true) {
 			return "Password cannot have any spaces";
 		}
 	}
@@ -73,21 +69,70 @@ export class SignIn extends Component {
 
 	handleSignIn = (e) => {
 		e.preventDefault();
-		// grab values stored in state at time of submission and format them for API call
-		const logUser = {
-			username: this.state.username.value,
-			user_password: this.state.password.value,
-		};
-		// double check that the values exist before sending
-		for (const property in logUser) {
-			if (logUser[property] === "") {
-				this.setState({
-					error: `${property} is not valid`,
-				});
-			}
+
+		const data = {};
+
+		const formData = new FormData(e.target);
+
+		for (let value of formData) {
+			data[value[0]] = value[1];
 		}
 
-		console.log(logUser);
+		let { loginEmail, loginPassword } = data;
+		if (this.validateEmail(loginEmail) === "") {
+			this.setState({
+				error: "email is not valid",
+			});
+		}
+		if (this.validatePassword(loginPassword) === "") {
+			this.setState({
+				error: "password is not valid",
+			});
+		}
+
+		let stateData = {
+			user_email: data.loginEmail,
+			user_password: data.loginPassword,
+		};
+
+		console.log(stateData);
+
+		this.setState({ error: null });
+		fetch(`${config.API_ENDPOINT}/api/auth/login`, {
+			method: "POST",
+			body: JSON.stringify(stateData),
+			headers: {
+				"content-type": "application/json",
+			},
+		})
+			.then((response) => {
+				if (!response.ok) {
+					throw response;
+				}
+				return response.json();
+			})
+
+			.then((data) => {
+				TokenService.saveAuthToken(data.authToken);
+
+				if (data.totalItems === 0) {
+					throw new Error("No data found");
+				}
+				window.location = "/Home";
+			})
+			.catch((error) => {
+				try {
+					error.json().then((body) => {
+						this.setState({
+							error: body.error,
+						});
+					});
+				} catch (e) {
+					this.setState({
+						error: error,
+					});
+				}
+			});
 	};
 
 	// ***** helpers *****
@@ -96,18 +141,20 @@ export class SignIn extends Component {
 		window.location = "/Landing";
 	}
 
+	// ***** rendering *****
+
 	render() {
 		return (
 			<section className="loginForm">
 				<form onSubmit={this.handleSignIn}>
 					<p className="existingUser">Sign in to onTrack</p>
-					<div className="logUsername">
-						<label htmlFor="logUsername">Username:</label>
+					<div className="logEmail">
+						<label htmlFor="logEmail">Email:</label>
 						<input
-							type="username"
-							name="loginUsername"
-							id="logUsername"
-							onChange={(e) => this.updateUsername(e.target.value)}
+							type="email"
+							name="loginEmail"
+							id="logEmail"
+							onChange={(e) => this.updateEmail(e.target.value)}
 						/>
 					</div>
 					<div className="logPass">
@@ -120,7 +167,7 @@ export class SignIn extends Component {
 						/>
 					</div>
 					<div>
-						<button type="submit" disabled={this.validateUsername() || this.validatePassword()}>
+						<button type="submit" disabled={this.validateEmail() || this.validatePassword()}>
 							Login
 						</button>
 					</div>
@@ -131,7 +178,7 @@ export class SignIn extends Component {
 					)}
 					<div>
 						<p>Demo: </p>
-						<p>U: dunderMifflin</p>
+						<p>E: dunder@outlook.com</p>
 						<p>P: Password1!</p>
 						<p>
 							New to onTrack?{" "}

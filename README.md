@@ -109,52 +109,52 @@ The app's functionality includes:
 * projects: (created projects)
     * id (PK)
     * name
-    * originator (user_id) (FK)
+    * user_id (FK)
 
 * contributor: (relationship between project originator, their project and allowing a contributor to help)
     * id (PK)
     * project_id (FK)
     * contributor_id (user_id) (FK)
 
-* tasksParent: (created tasks connected to project tree relationship)
+* parentTask: (created tasks connected to project tree relationship)
     * id (PK)
     * project_id (FK)
     * title
     * completion_status
 
-* tasksLvlOne: (created tasks connected to project tree relationship)
+* taskOne: (created tasks connected to project tree relationship)
     * id (PK)
     * project_id (FK)
     * title
-    * parent (FK) (tasksParent_id)
+    * parent_id (FK) (tasksParent_id)
     * completion_status
 
-* tasksLvlTwo: (created tasks connected to project tree relationship)
+* taskTwo: (created tasks connected to project tree relationship)
     * id (PK)
     * project_id (FK)
     * title
-    * parent (FK) (tasksLvlOne_id)
+    * parent_id (FK) (taskOne_id)
     * completion_status
 
-* tasksLvlThree: (created tasks connected to project tree relationship)
+* taskThree: (created tasks connected to project tree relationship)
     * id (PK)
     * project_id (FK)
     * title
-    * parent (FK) (tasksLvlTwo_id)
+    * parent_id (FK) (taskTwo_id)
     * completion_status
 
 * tasksLvlFour: (created tasks connected to project tree relationship)
     * id (PK)
     * project_id (FK)
     * title
-    * parent (FK) (tasksLvlThree_id)
+    * parent_id (FK) (taskThree_id)
     * completion_status
 
 * tasksLvlFive: (created tasks connected to project tree relationship)
     * id (PK)
     * project_id (FK)
     * title
-    * parent (FK) (tasksLvlFour_id)
+    * parent_id (FK) (taskFour_id)
     * completion_status
 
 

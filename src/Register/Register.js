@@ -8,7 +8,8 @@ import "./Register.css";
 // ***** component *****
 
 export class Register extends Component {
-	constructor(props) {
+	constructor() {
+		super();
 		this.state = {
 			username: {
 				value: "",
@@ -60,7 +61,7 @@ export class Register extends Component {
 			return "Username must be at least 3 characters long";
 		} else if (inputUsername.length > 15) {
 			return "Username cannot exceed 15 characters";
-		} else if (space == true) {
+		} else if (space === true) {
 			return "Check username for spaces";
 		}
 	}
@@ -84,7 +85,7 @@ export class Register extends Component {
 		if (!inputPassword.match(passwordformat)) {
 			return "Password must contain 1 upper case, lower case, number and special character";
 		}
-		if (space == true) {
+		if (space === true) {
 			return "Password cannot have any spaces";
 		}
 	}
@@ -117,6 +118,50 @@ export class Register extends Component {
 		}
 
 		console.log(newUser);
+
+		this.setState({ error: null });
+		fetch(`${config.API_ENDPOINT}/api/users`, {
+			method: "POST",
+			body: JSON.stringify(newUser),
+			headers: {
+				"content-type": "application/json",
+			},
+		})
+			.then((response) => {
+				if (!response.ok) {
+					throw response;
+				}
+				// ... convert it to json
+				return response.json();
+			})
+			// use the json api output
+			.then((data) => {
+				//check if there is meaningfull data
+
+				// check if there are no results
+				if (data.totalItems === 0) {
+					throw new Error("No data found");
+				}
+
+				this.setState({
+					success: "Registration successful! You may now sign in.",
+				});
+
+				document.getElementById("registerForm").reset();
+			})
+			.catch((error) => {
+				try {
+					error.json().then((body) => {
+						this.setState({
+							error: body.error,
+						});
+					});
+				} catch (e) {
+					this.setState({
+						error: error,
+					});
+				}
+			});
 	};
 
 	// ***** helpers *****
@@ -124,6 +169,8 @@ export class Register extends Component {
 	goToSignin() {
 		window.location = "/SignIn";
 	}
+
+	// ***** rendering *****
 
 	render() {
 		return (

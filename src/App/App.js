@@ -14,9 +14,7 @@ import PrivateRoute from "../Utils/PrivateRoute";
 // ***** component *****
 
 export class App extends Component {
-	constructor() {
-		state = {};
-	}
+	state = {}
 
 	// ***** routing *****
 
@@ -32,6 +30,8 @@ export class App extends Component {
 			</Switch>
 		);
 	}
+
+	// ***** rendering *****
 
 	render() {
 		return (

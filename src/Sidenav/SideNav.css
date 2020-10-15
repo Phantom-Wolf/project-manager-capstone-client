@@ -1,0 +1,26 @@
+.projectList {
+    background-color: rgb(10, 10, 15);
+    width: 15vw;
+    margin: 20px 10px 20px 0px;
+    border-radius: 0px 5px 5px 0px;
+    justify-content: center;
+    color: whitesmoke;
+    text-align: center;
+}
+
+.addProjectButton:hover {
+    cursor: pointer;
+}
+
+.projectListUL {
+    list-style-type: none;
+        list-style-position:inside;
+        margin:0;
+        padding:0; 
+    
+}
+
+.projectListUL li {
+    list-style: none;
+}
+
