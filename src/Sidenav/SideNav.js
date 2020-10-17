@@ -129,6 +129,10 @@ export class SideNav extends Component {
 		});
 	};
 
+	openProject = (id) => {
+		window.location = `/Project/${id}`
+	}
+
 	// ***** rendering *****
 
 	render() {
