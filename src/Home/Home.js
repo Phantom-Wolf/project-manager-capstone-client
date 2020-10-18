@@ -1,25 +1,22 @@
 // ***** imports *****
 
-import React, { Component } from 'react'
-import "./Home.css"
-import SideNav from "../Sidenav/SideNav"
+import React, { Component } from "react";
+import "./Home.css";
+import SideNav from "../Sidenav/SideNav";
 
 // ***** component *****
 
 export class Home extends Component {
+	// ***** rendering *****
 
-    // ***** rendering *****
-
-    render() {
-        return (
-            <div className = "homeBody">
-                <SideNav/>
-                <div className = "homeMain">
-                <p>hello world</p>
-                </div>
-            </div>
-        )
-    }
+	render() {
+		return (
+			<div className="homeBody">
+				<SideNav />
+				<div className="homeMain"></div>
+			</div>
+		);
+	}
 }
 
-export default Home
+export default Home;

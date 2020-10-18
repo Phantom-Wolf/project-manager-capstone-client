@@ -77,7 +77,7 @@ export class SideNav extends Component {
 	// ***** project submission API *****
 
 	handleNewProjectSubmit = (e) => {
-		e.preventDefault()
+		e.preventDefault();
 		let newProject = { project_name: this.state.new_project.value };
 
 		console.log("new Project", newProject);
@@ -114,7 +114,6 @@ export class SideNav extends Component {
 			});
 	};
 
-
 	// ***** helpers *****
 
 	logout = () => {
@@ -131,8 +130,8 @@ export class SideNav extends Component {
 	};
 
 	openProject = (id) => {
-		window.location = `/Project/${id}`
-	}
+		window.location = `/Project/${id}`;
+	};
 
 	// ***** rendering *****
 
@@ -141,7 +140,9 @@ export class SideNav extends Component {
 
 		return (
 			<div className="projectList">
-				<h3>Projects</h3>
+				<header>
+					<h3>Projects</h3>
+				</header>
 				<div className="addProject">
 					<p className="addProjectButton" onClick={this.Toggle}>
 						New Project
@@ -157,11 +158,10 @@ export class SideNav extends Component {
 							name="new-project-input"
 							type="text"
 							required
-							id="newProjectInput"
+							className="sideNavInput"
 							onChange={(e) => this.updateNewProject(e.target.value)}
 						></input>
-						<FontAwesomeIcon icon="plus-square"  />
-						<button type= "submit" >Add</button>
+						<button type="submit">Add</button>
 					</form>
 				</div>
 
@@ -196,7 +196,7 @@ export class SideNav extends Component {
 					// 	display: this.state.isToggle || window.innerWidth > 1100 ? "block" : "none",
 					// }}
 				>
-					<h3>Sign Out</h3>
+					<h3 className = "logoutName">Sign Out</h3>
 				</NavLink>
 			</div>
 		);

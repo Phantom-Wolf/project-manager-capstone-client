@@ -1,6 +1,7 @@
 .projectList {
     background-color: rgb(10, 10, 15);
     width: 15vw;
+    min-width: 230px;
     margin: 20px 10px 20px 0px;
     border-radius: 0px 5px 5px 0px;
     justify-content: center;
@@ -8,19 +9,64 @@
     text-align: center;
 }
 
+.projectList header {
+    font-size: 22px;
+    margin: 0px;
+    /* padding: 3px; */
+    border-radius: 0px 5px 0px 0px;
+    border-bottom: 4px solid rgb(17, 17, 31);
+}
+
+.addProjectButton {
+    font-weight: bold;
+}
+
 .addProjectButton:hover {
     cursor: pointer;
+    color: rgb(182, 182, 182);
 }
 
 .projectListUL {
     list-style-type: none;
-        list-style-position:inside;
-        margin:0;
-        padding:0; 
-    
+    list-style-position: inside;
+    margin: 0;
+    padding: 0;
 }
 
 .projectListUL li {
     list-style: none;
 }
 
+.navProjectTitle, .logout {
+    text-decoration: none;
+    color: whitesmoke;
+}
+
+.navProjectTitle:hover, .logout:hover {
+    cursor: pointer;
+    color: rgb(182, 182, 182);
+}
+
+.addProject {
+    border-bottom: 4px solid rgb(17, 17, 31);
+}
+
+.sideNavInput {
+    height: 22px;
+    border-style: none;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    color: whitesmoke;
+}
+
+.newProjectForm button {
+    margin: 10px;
+    align-items: stretch;
+    border-radius: 3px;
+    border-style: none;
+    padding: 2px 7px;
+}
+
+.newProjectForm button:hover {
+    cursor: pointer;
+}
