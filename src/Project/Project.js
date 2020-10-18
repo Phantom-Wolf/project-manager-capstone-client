@@ -1,21 +1,29 @@
 // ***** imports *****
 
-import React, { Component, useEffect } from "react";
+import React, { Component } from "react";
 import "./Project.css";
 import ProjectApiService from "../services/project-api-service";
 import config from "../config";
 import TokenService from "../services/token-service";
 import SideNav from "../Sidenav/SideNav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import TaskCount from "./TaskCount";
 
 export class Project extends Component {
 	state = {
-		project: "",
+		project: {},
 		project_id: "",
 		parentTask: [],
 		taskOne: [],
 		taskTwo: [],
 		taskThree: [],
+		toggle: false,
+		activeIdZero: [],
+		activeIdOne: [],
+		activeIdTwo: [],
+		showIdZero: [],
+		showIdOne: [],
+		showIdTwo: [],
 		error: null,
 		newTask: "",
 	};
@@ -106,7 +114,125 @@ export class Project extends Component {
 		});
 	}
 
+	updateActive(id, lvl) {
+		let route;
+		let route2;
+		switch (parseInt(lvl)) {
+			case 0:
+				route = "activeIdZero";
+				route2 = "showIdZero";
+				break;
+			case 1:
+				route = "activeIdOne";
+				route2 = "showIdOne";
+				break;
+			case 2:
+				route = "activeIdTwo";
+				route2 = "showIdTwo";
+				break;
+			default:
+				this.setState({ error: "Route Error" });
+		}
+
+		let currentList1 = [...this.state[route]];
+		let currentList2 = [...this.state[route2]];
+		let check = currentList1.includes(id);
+		let newAddition = [id];
+
+		if (!check) {
+			this.setState({
+				[route]: currentList1.concat(newAddition),
+				[route2]: currentList2.concat(newAddition),
+			});
+		} else {
+			this.setState({
+				[route]: currentList1.filter((task) => task !== id),
+			});
+			
+		}
+	}
+
+	updateShow(id, lvl) {
+		let route;
+		switch (parseInt(lvl)) {
+			case 0:
+				route = "showIdZero";
+				break;
+			case 1:
+				route = "showIdOne";
+				break;
+			case 2:
+				route = "showIdTwo";
+				break;
+			default:
+				this.setState({ error: "Route Error" });
+		}
+
+		let currentList = [...this.state[route]];
+		let check = currentList.includes(id);
+		let newAddition = [id];
+
+		if (!check) {
+			this.setState({
+				[route]: currentList.concat(newAddition),
+			});
+		} else {
+			this.setState({
+				[route]: currentList.filter((task) => task !== id),
+			});
+		}
+	}
+
+	updateToggle = () => {
+		this.setState({
+			toggle: !this.state.toggle,
+		});
+	};
+
 	// ***** helpers *****
+
+	checkActive(id, lvl) {
+		let route;
+
+		switch (parseInt(lvl)) {
+			case 0:
+				route = "activeIdZero";
+				break;
+			case 1:
+				route = "activeIdOne";
+				break;
+			case 2:
+				route = "activeIdTwo";
+				break;
+			default:
+				this.setState({ error: "Route Error" });
+		}
+		let currentList = [...this.state[route]];
+		let check = currentList.includes(id);
+
+		return check ? "active" : "";
+	}
+
+	checkShow(id, lvl, add) {
+		let route;
+		switch (parseInt(lvl)) {
+			case 0:
+				route = "showIdZero";
+				break;
+			case 1:
+				route = "showIdOne";
+				break;
+			case 2:
+				route = "showIdTwo";
+				break;
+			default:
+				this.setState({ error: "Route Error" });
+		}
+		let currentList = [...this.state[route]];
+		let check = currentList.includes(id);
+
+		return check ? `${add}` : "";
+	}
 
 	setPath(data) {
 		let route;
@@ -127,6 +253,28 @@ export class Project extends Component {
 				this.setState({ error: "Route Error" });
 		}
 		return route;
+	}
+
+	renderForm(lvl, parent) {
+		let outputHTML = "";
+		outputHTML = (
+			<form className="newProjectForm" onSubmit={this.handleSubmit}>
+				<input
+					name="newTaskName"
+					type="text"
+					required
+					className="newProjectInput"
+					onChange={(e) => this.updateNewTask(e.target.value)}
+				></input>
+				<input name="level" value={lvl} hidden />
+				<input name="parent" value={parent} hidden />
+				<button className="formButton" type="submit">
+					Add Task
+				</button>
+			</form>
+		);
+
+		return outputHTML;
 	}
 
 	// ***** new task API *****
@@ -172,12 +320,14 @@ export class Project extends Component {
 				this.setState({
 					[route]: this.state[route].concat(data),
 				});
+				
 			})
 			.catch((err) => {
 				this.setState({
 					error: err.message,
 				});
 			});
+			e.target.reset()
 	};
 
 	// ***** delete task *****
@@ -213,6 +363,29 @@ export class Project extends Component {
 			});
 	}
 
+	handleDeleteProject = () => {
+		let id = this.state.project_id;
+
+		fetch(`${config.API_ENDPOINT}/api/projects/${id}`, {
+			method: "DELETE",
+			headers: {
+				"content-type": "application/json",
+				authorization: `bearer ${TokenService.getAuthToken()}`,
+			},
+		})
+			.then((res) => {
+				if (!res.ok) {
+					throw new Error("Something went wrong, please try again later.");
+				}
+				window.location = "/Home";
+			})
+			.catch((err) => {
+				this.setState({
+					error: err.message,
+				});
+			});
+	};
+
 	render() {
 		let meta = this.props.match.params.project_id;
 		console.log(meta);
@@ -223,57 +396,73 @@ export class Project extends Component {
 					<header>
 						<div className="projectName">
 							<h2>{this.state.project.project_name}</h2>
-							<FontAwesomeIcon icon="plus-square" className="headerPlus" />
-							<FontAwesomeIcon icon="trash" className="headerTrash" />
-							<form
-								className="newProjectFormParent"
-								onSubmit={this.handleSubmit}
-								// style={{ display: "none" }}
-							>
-								<input
-									name="newTaskName"
-									type="text"
-									required
-									id="newProjectInput"
-									onChange={(e) => this.updateNewTask(e.target.value)}
-								></input>
-								<input name="level" value="0" hidden />
-								<input name="parent" value="null" hidden />
-								<button type="submit">
-									<FontAwesomeIcon icon="plus-square" />
-								</button>
-							</form>
+							<FontAwesomeIcon
+								icon={this.state.toggle ? "window-close" : "plus-square"}
+								className="headerPlus"
+								onClick={this.updateToggle}
+							/>
+							<FontAwesomeIcon
+								icon="trash"
+								className="headerTrash"
+								onClick={this.handleDeleteProject}
+							/>
 						</div>
 					</header>
-					<ul className="parentListUl">
+					<ul className={`parentListUl`}>
+						<li className={`addForm ${this.state.toggle ? "active" : ""}`}>
+							<div className="taskGroup lvlProject">
+								<form
+									className="newProjectForm"
+									onSubmit={this.handleSubmit}
+									// style={{ display: "none" }}
+								>
+									<input
+										name="newTaskName"
+										type="text"
+										required
+										className="newProjectInput"
+										onChange={(e) => this.updateNewTask(e.target.value)}
+									></input>
+									<input name="level" value="0" hidden />
+									<input name="parent" value="null" hidden />
+									<button className="formButton" type="submit">
+										Add Task
+									</button>
+								</form>
+							</div>
+						</li>
 						{this.state.parentTask.map((task) => {
 							return (
 								<li key={task.id}>
 									<div className="taskGroup lvlZero">
 										<h4>{task.title} </h4>
+										{TaskCount(task.id, this.state.taskOne)}
+										<FontAwesomeIcon
+											icon={
+												this.state.activeIdZero.includes(task.id) ? "window-close" : "plus-square"
+											}
+											className="plusIcon"
+											onClick={() => this.updateActive(task.id, task.task_level)}
+										/>
 										<FontAwesomeIcon
 											icon="trash"
 											className="trashIcon"
 											onClick={() => this.handleDelete(task.id, task.task_level)}
 										/>
+										<FontAwesomeIcon
+											icon="chevron-right"
+											className={`chevronIcon ${this.checkShow(
+												task.id,
+												task.task_level,
+												"rotate"
+											)}`}
+											onClick={() => this.updateShow(task.id, task.task_level)}
+										/>
 									</div>
-									<ul>
-										<li>
+									<ul className={`currentUl ${this.checkShow(task.id, task.task_level, "show")}`}>
+										<li className={`addForm ${this.checkActive(task.id, task.task_level)}`}>
 											<div className="taskGroup lvlOne">
-												<form className="newProjectForm" onSubmit={this.handleSubmit}>
-													<input
-														name="newTaskName"
-														type="text"
-														required
-														id="newProjectInput"
-														onChange={(e) => this.updateNewTask(e.target.value)}
-													></input>
-													<input name="level" value={task.task_level + 1} hidden />
-													<input name="parent" value={task.id} hidden />
-													<button type="submit">
-														<FontAwesomeIcon icon="plus-square" />
-													</button>
-												</form>
+												{this.renderForm(task.task_level + 1, task.id)}
 											</div>
 										</li>
 										{this.state.taskOne.map((task1) => {
@@ -282,30 +471,46 @@ export class Project extends Component {
 													<li key={task1.id}>
 														<div className="taskGroup lvlOne">
 															<h4>{task1.title}</h4>
-
+															{TaskCount(task1.id, this.state.taskTwo)}
+															<FontAwesomeIcon
+																icon={
+																	this.state.activeIdOne.includes(task1.id)
+																		? "window-close"
+																		: "plus-square"
+																}
+																className="plusIcon"
+																onClick={() => this.updateActive(task1.id, task1.task_level)}
+															/>
 															<FontAwesomeIcon
 																icon="trash"
 																className="trashIcon"
 																onClick={() => this.handleDelete(task1.id, task1.task_level)}
 															/>
+															<FontAwesomeIcon
+																icon="chevron-right"
+																className={`chevronIcon ${this.checkShow(
+																	task1.id,
+																	task1.task_level,
+																	"rotate"
+																)}`}
+																onClick={() => this.updateShow(task1.id, task1.task_level)}
+															/>
 														</div>
-														<ul>
-															<li>
+														<ul
+															className={`currentUl ${this.checkShow(
+																task1.id,
+																task1.task_level,
+																"show"
+															)}`}
+														>
+															<li
+																className={`addForm ${this.checkActive(
+																	task1.id,
+																	task1.task_level
+																)}`}
+															>
 																<div className="taskGroup lvlTwo">
-																	<form className="newProjectForm" onSubmit={this.handleSubmit}>
-																		<input
-																			name="newTaskName"
-																			type="text"
-																			required
-																			id="newProjectInput"
-																			onChange={(e) => this.updateNewTask(e.target.value)}
-																		></input>
-																		<input name="level" value={task1.task_level + 1} hidden />
-																		<input name="parent" value={task1.id} hidden />
-																		<button type="submit">
-																			<FontAwesomeIcon icon="plus-square" />
-																		</button>
-																	</form>
+																	{this.renderForm(task1.task_level + 1, task1.id)}
 																</div>
 															</li>
 															{this.state.taskTwo.map((task2) => {
@@ -314,7 +519,18 @@ export class Project extends Component {
 																		<li key={task2.id}>
 																			<div className="taskGroup lvlTwo">
 																				<h4>{task2.title}</h4>
-
+																				{TaskCount(task2.id, this.state.taskThree)}
+																				<FontAwesomeIcon
+																					icon={
+																						this.state.activeIdTwo.includes(task2.id)
+																							? "window-close"
+																							: "plus-square"
+																					}
+																					className="plusIcon"
+																					onClick={() =>
+																						this.updateActive(task2.id, task2.task_level)
+																					}
+																				/>
 																				<FontAwesomeIcon
 																					icon="trash"
 																					className="trashIcon"
@@ -322,31 +538,33 @@ export class Project extends Component {
 																						this.handleDelete(task2.id, task2.task_level)
 																					}
 																				/>
+																				<FontAwesomeIcon
+																					icon="chevron-right"
+																					className={`chevronIcon ${this.checkShow(
+																						task2.id,
+																						task2.task_level,
+																						"rotate"
+																					)}`}
+																					onClick={() =>
+																						this.updateShow(task2.id, task2.task_level)
+																					}
+																				/>
 																			</div>
-																			<ul>
-																				<li>
+																			<ul
+																				className={`currentUl ${this.checkShow(
+																					task2.id,
+																					task2.task_level,
+																					"show"
+																				)}`}
+																			>
+																				<li
+																					className={`addForm ${this.checkActive(
+																						task2.id,
+																						task2.task_level
+																					)}`}
+																				>
 																					<div className="taskGroup lvlThree">
-																						<form
-																							className="newProjectForm"
-																							onSubmit={this.handleSubmit}
-																						>
-																							<input
-																								name="newTaskName"
-																								type="text"
-																								required
-																								id="newProjectInput"
-																								onChange={(e) => this.updateNewTask(e.target.value)}
-																							></input>
-																							<input
-																								name="level"
-																								value={task2.task_level + 1}
-																								hidden
-																							/>
-																							<input name="parent" value={task2.id} hidden />
-																							<button type="submit">
-																								<FontAwesomeIcon icon="plus-square" />
-																							</button>
-																						</form>
+																						{this.renderForm(task2.task_level + 1, task2.id)}
 																					</div>
 																				</li>
 																				{this.state.taskThree.map((task3) => {
@@ -357,7 +575,7 @@ export class Project extends Component {
 																									<h4>{task3.title}</h4>
 																									<FontAwesomeIcon
 																										icon="trash"
-																										className="trashIcon"
+																										className="trashIconEnd"
 																										onClick={() =>
 																											this.handleDelete(task3.id, task3.task_level)
 																										}

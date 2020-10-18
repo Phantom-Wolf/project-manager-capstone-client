@@ -1,3 +1,5 @@
+/* ***** general styling ***** */
+
 .projectBody {
     display: flex;
     flex-direction: row;
@@ -22,13 +24,25 @@
     margin-left: 10px;
 }
 
+.projectBody h4 {
+    margin-right: 10px;
+    margin-left: 10px;
+    padding: 0px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 220px;
+}
+
+.projectBody ul {
+    list-style: none;
+}
+
+/* ***** fontawesome icon positioning ***** */
+
 .headerPlus {
     margin-left: auto;
     margin-right: 10px;
-}
-
-.headerPlus:hover {
-    cursor: pointer;
 }
 
 .headerTrash {
@@ -36,33 +50,69 @@
     margin-left: 15px;
 }
 
-.headerTrash:hover {
+.headerTrash:hover, .trashIcon:hover, .headerPlus:hover, .chevronIcon:hover {
     cursor: pointer;
 }
 
-.projectBody h4 {
-    margin-right: 10px;
-    margin-left: 10px;
-    padding: 0px;
+.plusIcon {
+    margin-right: 15px;
+    margin-left: 15px;
 }
 
-.projectBody ul {
-    list-style: none;
-}
-
-.trashIcon {
-    padding-top: 2px;
+.trashIconEnd {
     margin-left: auto;
     margin-right: 10px;
 }
 
-.trashIcon:hover {
-    cursor: pointer;
+.trashIcon {
+    margin-right: 15px;
+    margin-left: 15px;
 }
 
-.newProjectForm {
-    /* display: none; */
+.chevronIcon {
+    margin-right: 15px;
+    margin-left: 25px;
 }
+
+.cancelIcon {
+    margin-right: 0px;
+    margin-left: auto;
+    font-size: 22px;
+}
+
+/* ***** task count styling ***** */
+
+.taskCount {
+    margin-left: auto;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+/* ***** conditional display for forms and accordian ***** */
+
+.addForm {
+    display: none;
+}
+
+.currentUl {
+    display: none;
+}
+
+.active {
+    display: block
+}
+
+.show {
+    display: block;
+    transition: .2 ease;
+}
+
+.rotate {
+    transform: rotate(90deg);
+    transition: .2s ease;
+}
+
+/* ***** Tasks ***** */
 
 .taskGroup {
     display: flex;
@@ -71,12 +121,18 @@
     width: 400px;
     padding: 0px;
     margin: 5px 0px 5px;
-    border-radius: 5px;height: 65px;
+    border-radius: 5px;
+    height: 65px;
+}
+
+/* ** task colors ** */
+
+.lvlProject {
+    background-color: rgb(115, 27, 27);
 }
 
 .lvlZero {
     background-color: rgb(115, 27, 27);
-    
 }
 
 .lvlOne {
@@ -90,3 +146,33 @@
 .lvlThree {
     background-color: rgb(51, 75, 56);
 }
+
+/* ** add task form styling ** */
+
+.newProjectForm {
+    display: flex;
+    align-items: stretch;
+    margin: auto;
+    width: 95%;
+}
+
+.formButton {
+    margin-left: auto;
+    border-radius: 3px;
+    border-style: none;
+    background: whitesmoke;
+    color: rgba(15, 15, 15, 0.925);
+    padding: 0px 15px;
+    font-weight: bold;
+}
+
+.newProjectInput {
+    width: 60%;
+    height: 22px;
+    border-style: none;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    color: whitesmoke;
+    font-weight: bold;
+}
+

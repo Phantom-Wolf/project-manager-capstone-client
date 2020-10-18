@@ -76,7 +76,8 @@ export class SideNav extends Component {
 
 	// ***** project submission API *****
 
-	handleNewProjectSubmit = () => {
+	handleNewProjectSubmit = (e) => {
+		e.preventDefault()
 		let newProject = { project_name: this.state.new_project.value };
 
 		console.log("new Project", newProject);
@@ -150,6 +151,7 @@ export class SideNav extends Component {
 						style={{
 							display: this.state.new_project.toggle ? "block" : "none",
 						}}
+						onSubmit={this.handleNewProjectSubmit}
 					>
 						<input
 							name="new-project-input"
@@ -158,7 +160,8 @@ export class SideNav extends Component {
 							id="newProjectInput"
 							onChange={(e) => this.updateNewProject(e.target.value)}
 						></input>
-						<FontAwesomeIcon icon="plus-square" onClick={this.handleNewProjectSubmit} />
+						<FontAwesomeIcon icon="plus-square"  />
+						<button type= "submit" >Add</button>
 					</form>
 				</div>
 

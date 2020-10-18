@@ -44,6 +44,16 @@ const ProjectApiService = {
 				});
 			});
 	},
+
+	deleteProject(id) {
+		fetch(`${config.API_ENDPOINT}/api/projects/${id}`, {
+			method: "DELETE",
+			headers: {
+				"content-type": "application/json",
+				authorization: `bearer ${TokenService.getAuthToken()}`,
+			},
+		})
+	}
 };
 
 export default ProjectApiService;
