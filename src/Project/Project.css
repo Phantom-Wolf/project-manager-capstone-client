@@ -10,14 +10,20 @@
     color: whitesmoke;
 }
 
+.projectBody section {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
 .projectName {
     display: flex;
     flex-direction: row;
     align-items: baseline;
     background-color: rgb(39, 90, 92);
     margin: 20px 10px 10px 10px;
-    width: 100%;
+    /* width: 100%; */
     border-radius: 5px;
+    width: 600px
 }
 
 .projectName h2 {
@@ -50,13 +56,14 @@
     margin-left: 15px;
 }
 
-.headerTrash:hover, .trashIcon:hover, .headerPlus:hover, .chevronIcon:hover {
+.headerTrash:hover, .trashIcon:hover, .headerPlus:hover, .chevronIcon:hover, .plusIcon:hover {
     cursor: pointer;
 }
 
 .plusIcon {
     margin-right: 15px;
     margin-left: 15px;
+ 
 }
 
 .trashIconEnd {
@@ -79,6 +86,8 @@
     margin-left: auto;
     font-size: 22px;
 }
+
+
 
 /* ***** task count styling ***** */
 
@@ -175,4 +184,3 @@
     color: whitesmoke;
     font-weight: bold;
 }
-

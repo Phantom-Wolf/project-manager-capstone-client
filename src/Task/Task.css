@@ -1,0 +1,30 @@
+.taskBody {
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    min-height: 100vh;
+    height: 100%;
+    background-color: rgb(17, 17, 31);
+    color: whitesmoke;
+}
+.taskBody h2 {
+    text-align: center;
+    margin: 0px;
+    padding: 15px 0px;
+    border-radius:5px;
+    background-color: rgb(39, 90, 92);
+}
+
+.taskBody section {
+ margin: 20px auto 0;
+ width: 600px;
+ text-align: center;
+}
+
+.taskName {
+    width: 400px;
+    margin: 10px auto; 
+    padding: 15px 0px;
+    border-radius:5px;
+    /* background-color: rgb(39, 90, 92); */
+}

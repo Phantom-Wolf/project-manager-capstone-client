@@ -148,7 +148,7 @@ export class SideNav extends Component {
 						New Project
 					</p>
 					<form
-						className="newProjectForm"
+						className="sideNavForm"
 						style={{
 							display: this.state.new_project.toggle ? "block" : "none",
 						}}

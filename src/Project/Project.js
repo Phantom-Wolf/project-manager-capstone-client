@@ -1,6 +1,7 @@
 // ***** imports *****
 
 import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
 import "./Project.css";
 import ProjectApiService from "../services/project-api-service";
 import config from "../config";
@@ -39,6 +40,7 @@ export class Project extends Component {
 	handleReload = (project_id) => {
 		ProjectApiService.grabProject(project_id)
 			.then((data) => {
+				console.log("data", data);
 				this.setState({
 					project: data,
 				});
@@ -148,7 +150,6 @@ export class Project extends Component {
 			this.setState({
 				[route]: currentList1.filter((task) => task !== id),
 			});
-			
 		}
 	}
 
@@ -320,14 +321,13 @@ export class Project extends Component {
 				this.setState({
 					[route]: this.state[route].concat(data),
 				});
-				
 			})
 			.catch((err) => {
 				this.setState({
 					error: err.message,
 				});
 			});
-			e.target.reset()
+		e.target.reset();
 	};
 
 	// ***** delete task *****
@@ -400,6 +400,7 @@ export class Project extends Component {
 								icon={this.state.toggle ? "window-close" : "plus-square"}
 								className="headerPlus"
 								onClick={this.updateToggle}
+								style={{ color: "whitesmoke" }}
 							/>
 							<FontAwesomeIcon
 								icon="trash"
@@ -435,8 +436,24 @@ export class Project extends Component {
 							return (
 								<li key={task.id}>
 									<div className="taskGroup lvlZero">
-										<h4>{task.title} </h4>
+										<NavLink
+											to={{
+												pathname: `/Task/${task.id}`,
+												state: {
+													route: "parentTask",
+													taskList: this.state.taskOne,
+													project_id: this.state.project_id,
+													project_name: this.state.project.project_name,
+													task: task,
+												},
+											}}
+											className="navProjectTitle"
+										>
+											<h4>{task.title} </h4>
+										</NavLink>
+
 										{TaskCount(task.id, this.state.taskOne)}
+
 										<FontAwesomeIcon
 											icon={
 												this.state.activeIdZero.includes(task.id) ? "window-close" : "plus-square"
@@ -444,6 +461,7 @@ export class Project extends Component {
 											className="plusIcon"
 											onClick={() => this.updateActive(task.id, task.task_level)}
 										/>
+
 										<FontAwesomeIcon
 											icon="trash"
 											className="trashIcon"
@@ -470,7 +488,22 @@ export class Project extends Component {
 												return (
 													<li key={task1.id}>
 														<div className="taskGroup lvlOne">
-															<h4>{task1.title}</h4>
+															<NavLink
+																to={{
+																	pathname: `/Task/${task1.id}`,
+																	state: {
+																		route: "taskOne",
+																		taskList: this.state.taskTwo,
+																		project_id: this.state.project_id,
+																		project_name: this.state.project.project_name,
+																		task: task1,
+																	},
+																}}
+																className="navProjectTitle"
+															>
+																<h4>{task1.title} </h4>
+															</NavLink>
+
 															{TaskCount(task1.id, this.state.taskTwo)}
 															<FontAwesomeIcon
 																icon={
@@ -518,7 +551,22 @@ export class Project extends Component {
 																	return (
 																		<li key={task2.id}>
 																			<div className="taskGroup lvlTwo">
-																				<h4>{task2.title}</h4>
+																				<NavLink
+																					to={{
+																						pathname: `/Task/${task2.id}`,
+																						state: {
+																							route: "taskTwo",
+																							taskList: this.state.taskThree,
+																							project_id: this.state.project_id,
+																							project_name: this.state.project.project_name,
+																							task: task2,
+																						},
+																					}}
+																					className="navProjectTitle"
+																				>
+																					<h4>{task2.title} </h4>
+																				</NavLink>
+
 																				{TaskCount(task2.id, this.state.taskThree)}
 																				<FontAwesomeIcon
 																					icon={
@@ -572,7 +620,23 @@ export class Project extends Component {
 																						return (
 																							<li key={task3.id}>
 																								<div className="taskGroup lvlThree">
-																									<h4>{task3.title}</h4>
+																									<NavLink
+																										to={{
+																											pathname: `/Task/${task3.id}`,
+																											state: {
+																												route: "taskThree",
+																												taskList: [],
+																												project_id: this.state.project_id,
+																												project_name: this.state.project
+																													.project_name,
+																												task: task3,
+																											},
+																										}}
+																										className="navProjectTitle"
+																									>
+																										<h4>{task3.title} </h4>
+																									</NavLink>
+
 																									<FontAwesomeIcon
 																										icon="trash"
 																										className="trashIconEnd"

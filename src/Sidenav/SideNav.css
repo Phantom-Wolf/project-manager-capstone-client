@@ -59,7 +59,7 @@
     color: whitesmoke;
 }
 
-.newProjectForm button {
+.sideNavForm button {
     margin: 10px;
     align-items: stretch;
     border-radius: 3px;
@@ -67,6 +67,6 @@
     padding: 2px 7px;
 }
 
-.newProjectForm button:hover {
+.sideNavForm button:hover {
     cursor: pointer;
 }
