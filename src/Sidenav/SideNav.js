@@ -2,7 +2,7 @@
 
 import React, { Component } from "react";
 import "./SideNav.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import TokenService from "../services/token-service";
 import config from "../config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,11 +18,13 @@ export class SideNav extends Component {
 			value: null,
 			toggle: false,
 		},
+		activeProject: null,
+		toggleBars: true,
 	};
 
 	// ***** pre-load *****
 
-	componentWillMount() {
+	componentDidMount() {
 		// fetch projects from DB
 
 		fetch(`${config.API_ENDPOINT}/api/projects`, {
@@ -61,6 +63,14 @@ export class SideNav extends Component {
 			})
 			.catch((err) => {});
 		// fetch contributor projects from DB
+
+		window.onresize = () => {
+			if (window.innerWidth > 1100) {
+				this.setState({
+					toggleBars: true,
+				});
+			}
+		};
 	}
 
 	// ***** update state *****
@@ -72,6 +82,10 @@ export class SideNav extends Component {
 				toggle: this.state.new_project.toggle,
 			},
 		});
+	}
+
+	setActive(id) {
+		this.setState();
 	}
 
 	// ***** project submission API *****
@@ -112,6 +126,8 @@ export class SideNav extends Component {
 					error: err.message,
 				});
 			});
+
+		e.target.reset();
 	};
 
 	// ***** helpers *****
@@ -129,6 +145,12 @@ export class SideNav extends Component {
 		});
 	};
 
+	handleDisplay = () => {
+		this.setState({
+			toggleBars: !this.state.toggleBars,
+		});
+	};
+
 	openProject = (id) => {
 		window.location = `/Project/${id}`;
 	};
@@ -140,64 +162,77 @@ export class SideNav extends Component {
 
 		return (
 			<div className="projectList">
-				<header>
-					<h3>Projects</h3>
-				</header>
-				<div className="addProject">
-					<p className="addProjectButton" onClick={this.Toggle}>
-						New Project
-					</p>
-					<form
-						className="sideNavForm"
-						style={{
-							display: this.state.new_project.toggle ? "block" : "none",
-						}}
-						onSubmit={this.handleNewProjectSubmit}
-					>
-						<input
-							name="new-project-input"
-							type="text"
-							required
-							className="sideNavInput"
-							onChange={(e) => this.updateNewProject(e.target.value)}
-						></input>
-						<button type="submit">Add</button>
-					</form>
-				</div>
-
-				<ul className="projectListUL">
-					{this.state.projects.map((project) => {
-						return (
-							<li key={project.id}>
-								<NavLink to={`/Project/${project.id}`} className="navProjectTitle">
-									<p>{project.project_name}</p>
-								</NavLink>
-							</li>
-						);
-					})}
-				</ul>
-				<ul className="contributorProjectListUL">
-					{this.state.contributor_projects.map((project) => {
-						return (
-							<li key={project.id}>
-								<NavLink to={`/Project/${project.id}`} className="navProjectTitle">
-									<p>{project.project_name}**</p>
-								</NavLink>
-							</li>
-						);
-					})}
-				</ul>
-
-				<NavLink
-					onClick={this.logout}
-					to={`/Landing`}
-					className="logout"
-					// style={{
-					// 	display: this.state.isToggle || window.innerWidth > 1100 ? "block" : "none",
-					// }}
+				<FontAwesomeIcon
+					icon="bars"
+					className="barsIcon"
+					onClick={this.handleDisplay}
+					
+				/>
+				<div
+					className={
+						this.state.toggleBars === true || window.innerWidth > 1100 ? "showNav" : "hideNav"
+					}
 				>
-					<h3 className = "logoutName">Sign Out</h3>
-				</NavLink>
+					<header>
+						<h3>Projects</h3>
+					</header>
+					<div className="addProject">
+						<p className="addProjectButton" onClick={this.Toggle}>
+							+ New Project
+						</p>
+						<form
+							className="sideNavForm"
+							style={{
+								display: this.state.new_project.toggle ? "block" : "none",
+							}}
+							onSubmit={this.handleNewProjectSubmit}
+						>
+							<input
+								name="new-project-input"
+								type="text"
+								required
+								className="sideNavInput"
+								onChange={(e) => this.updateNewProject(e.target.value)}
+							></input>
+							<button type="submit">Add</button>
+						</form>
+					</div>
+
+					<ul className="projectListUL">
+						{this.state.projects.map((project) => {
+							return (
+								<li key={project.id}>
+									<Link to={`/Project/${project.id}`} className="navProjectTitle">
+										<FontAwesomeIcon icon="folder-open" className="treeIcon" />
+										<p>{project.project_name}</p>
+									</Link>
+								</li>
+							);
+						})}
+					</ul>
+					<ul className="contributorProjectListUL">
+						{this.state.contributor_projects.map((project) => {
+							return (
+								<li key={project.id}>
+									<NavLink to={`/Project/${project.id}`} className="navProjectTitle">
+										<p>{project.project_name}**</p>
+									</NavLink>
+								</li>
+							);
+						})}
+					</ul>
+
+					<NavLink
+						onClick={this.logout}
+						to={`/Landing`}
+						className="logout"
+						// style={{
+						// 	display: this.state.isToggle || window.innerWidth > 1100 ? "block" : "none",
+						// }}
+					>
+						<h3 className="logoutName">Sign Out</h3>
+					</NavLink>
+				</div>
 			</div>
 		);
 	}

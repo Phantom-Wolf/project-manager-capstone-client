@@ -2,7 +2,7 @@
 
 .projectBody {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin: auto;
     min-height: 100vh;
     height: 100%;
@@ -136,6 +136,10 @@
 
 /* ** task colors ** */
 
+.completedColor {
+    background-color: rgb(3, 153, 15);
+}
+
 .lvlProject {
     background-color: rgb(115, 27, 27);
 }
@@ -183,4 +187,19 @@
     background: rgba(255, 255, 255, 0.1);
     color: whitesmoke;
     font-weight: bold;
+}
+
+@media only screen and (min-width: 1100px) { 
+
+    .projectBody {
+        display: flex;
+        flex-direction: row;
+        margin: auto;
+        min-height: 100vh;
+        height: 100%;
+        background-color: rgb(17, 17, 31);
+        color: whitesmoke;
+    }
+    
+
 }

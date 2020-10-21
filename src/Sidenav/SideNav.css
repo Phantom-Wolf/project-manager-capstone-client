@@ -1,20 +1,40 @@
 .projectList {
     background-color: rgb(10, 10, 15);
-    width: 15vw;
-    min-width: 230px;
-    margin: 20px 10px 20px 0px;
+    /* width: 15vw; */
+    min-width: 100vw;
+    margin: 0px 10px 20px 0px;
     border-radius: 0px 5px 5px 0px;
-    justify-content: center;
+    /* justify-content: center; */
     color: whitesmoke;
-    text-align: center;
+    /* text-align: center; */
+    padding-left: 10px;
+    height: fit-content;
+}
+
+.barsIcon {
+    display:block;
+    color: whitesmoke;
+    text-align: left;
+    margin: 15px auto 10px 10px;
+}
+
+.hideNav {
+    display: none;
+}
+
+.showNav{
+    display: block;
 }
 
 .projectList header {
     font-size: 22px;
     margin: 0px;
-    /* padding: 3px; */
     border-radius: 0px 5px 0px 0px;
-    border-bottom: 4px solid rgb(17, 17, 31);
+    height: 40px;
+}
+
+.projectList h3 {
+    margin: 0px;
 }
 
 .addProjectButton {
@@ -37,18 +57,37 @@
     list-style: none;
 }
 
+.navProjectTitle {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    
+}
+
+.navProjectTitle p {
+    font-size: 17px;
+    /* padding-bottom: 3px; */
+}
+
 .navProjectTitle, .logout {
     text-decoration: none;
     color: whitesmoke;
 }
 
-.navProjectTitle:hover, .logout:hover {
+.logoutName {
+    padding-bottom: 20px;
+}
+
+.navProjectTitle:hover, .logout:hover, .barsIcon:hover {
     cursor: pointer;
     color: rgb(182, 182, 182);
 }
 
-.addProject {
-    border-bottom: 4px solid rgb(17, 17, 31);
+.treeIcon {
+    display: inline-block;
+    margin-right: 10px;
+    /* color: rgb(17, 17, 31); */
+  
 }
 
 .sideNavInput {
@@ -69,4 +108,26 @@
 
 .sideNavForm button:hover {
     cursor: pointer;
+}
+
+@media only screen and (min-width: 1100px) {
+    .projectList {
+        background-color: rgb(10, 10, 15);
+        width: 15vw;
+        min-width: 230px;
+        margin: 20px 10px 20px 0px;
+        border-radius: 0px 5px 5px 0px;
+        justify-content: center;
+        color: whitesmoke;
+        text-align: center;
+        height: 95vh;
+    }
+
+    .navProjectTitle {
+        justify-content: center;
+    }
+
+    .barsIcon {
+        display: none;
+    }
 }

@@ -1,30 +1,162 @@
 .taskBody {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin: auto;
     min-height: 100vh;
     height: 100%;
     background-color: rgb(17, 17, 31);
     color: whitesmoke;
 }
+
 .taskBody h2 {
     text-align: center;
     margin: 0px;
     padding: 15px 0px;
-    border-radius:5px;
+    border-radius: 5px;
     background-color: rgb(39, 90, 92);
 }
 
+.projectReturn {
+    text-decoration: none;
+    color: whitesmoke;
+}
+
+.projectReturn:hover {
+    cursor: pointer;
+    color: rgb(182, 182, 182);
+}
+
 .taskBody section {
- margin: 20px auto 0;
- width: 600px;
- text-align: center;
+    margin: 20px auto 0;
+    width: 600px;
+    text-align: center;
 }
 
 .taskName {
     width: 400px;
-    margin: 10px auto; 
+    margin: 10px auto;
     padding: 15px 0px;
-    border-radius:5px;
+    border-radius: 5px;
     /* background-color: rgb(39, 90, 92); */
+}
+
+.actionSpan {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.actionSpan:hover .noteIconCancel:hover {
+    cursor: pointer;
+}
+
+.noteHeader {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    margin-bottom: 0px;
+}
+
+.noteHeaderText {
+    margin-right: auto;
+}
+
+.addNoteText:hover {
+    cursor: pointer;
+    /* text-align: right; */
+}
+
+.taskNotes Ul {
+    list-style: none;
+    width: 600px;
+    min-height: 200px;
+    max-height: 400px;
+    background-color: rgb(10, 10, 15);
+    border-radius: 5px;
+    padding: 5px;
+    overflow: auto;
+    margin-top: 0px;
+}
+
+.notes {
+    border: 2px solid rgba(116, 116, 116, 0.548);
+    border-radius: 5px;
+    min-height: 70px;
+    padding: 5px;
+    margin: 4px;
+}
+
+.hide {
+    display: none;
+}
+
+.noteForm {
+    display: flex;
+    flex-direction: row;
+}
+
+.noteForm button {
+    /* width: 10px; */
+    color: whitesmoke;
+    background-color: transparent;
+    border-style: none;
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+.noteForm textarea {
+    width: 95%;
+    border-radius: 5px;
+    background-color: rgba(39, 39, 39, 0.493);
+    color: whitesmoke;
+    font-size: 16px;
+}
+
+.noteFormActions {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.noteIconCancel:hover, button:hover, .noteIconDelete:hover {
+    cursor: pointer;
+}
+
+.noteIconCancel {
+    margin-left: 16px;
+}
+
+.noteIconAdd {
+    margin: auto;
+}
+
+.noteIconDelete {
+    display: inline-flex;
+}
+
+.noteSpan {
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.pp {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    margin-top: 0px;
+}
+
+.innerNoteBottom {
+    text-align: start;
+}
+
+@media only screen and (min-width: 1100px) {
+    .taskBody {
+        display: flex;
+        flex-direction: row;
+        margin: auto;
+        min-height: 100vh;
+        height: 100%;
+        background-color: rgb(17, 17, 31);
+        color: whitesmoke;
+    }
 }

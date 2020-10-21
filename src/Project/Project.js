@@ -327,6 +327,7 @@ export class Project extends Component {
 					error: err.message,
 				});
 			});
+
 		e.target.reset();
 	};
 
@@ -395,7 +396,7 @@ export class Project extends Component {
 				<section>
 					<header>
 						<div className="projectName">
-							<h2>{this.state.project.project_name}</h2>
+							<h2><FontAwesomeIcon icon="folder-open" className="treeIcon" />{this.state.project.project_name}</h2>
 							<FontAwesomeIcon
 								icon={this.state.toggle ? "window-close" : "plus-square"}
 								className="headerPlus"
@@ -409,14 +410,13 @@ export class Project extends Component {
 							/>
 						</div>
 					</header>
+
+					{/* start of Projects nesting Ul list */}
 					<ul className={`parentListUl`}>
+						{/* form to add parentTask tasks to Project*/}
 						<li className={`addForm ${this.state.toggle ? "active" : ""}`}>
 							<div className="taskGroup lvlProject">
-								<form
-									className="newProjectForm"
-									onSubmit={this.handleSubmit}
-									// style={{ display: "none" }}
-								>
+								<form className="newProjectForm" onSubmit={this.handleSubmit}>
 									<input
 										name="newTaskName"
 										type="text"
@@ -433,15 +433,26 @@ export class Project extends Component {
 							</div>
 						</li>
 						{this.state.parentTask.map((task) => {
+							// ********************************* parent tasks *********************************
 							return (
 								<li key={task.id}>
-									<div className="taskGroup lvlZero">
+									<div
+										className={`taskGroup  ${
+											task.completion_status === true ? "completedColor" : "lvlZero"
+										}`}
+									>
+										{/* parentTask link & title */}
 										<NavLink
 											to={{
 												pathname: `/Task/${task.id}`,
 												state: {
 													route: "parentTask",
-													taskList: this.state.taskOne,
+													route2: "parentTask",
+													route3: "taskOne",
+													parentTask: this.state.parentTask,
+													taskOne: this.state.taskOne,
+													taskTwo: this.state.taskTwo,
+													taskThree: this.state.taskThree,
 													project_id: this.state.project_id,
 													project_name: this.state.project.project_name,
 													task: task,
@@ -454,6 +465,7 @@ export class Project extends Component {
 
 										{TaskCount(task.id, this.state.taskOne)}
 
+										{/* parentTask action buttons */}
 										<FontAwesomeIcon
 											icon={
 												this.state.activeIdZero.includes(task.id) ? "window-close" : "plus-square"
@@ -461,7 +473,6 @@ export class Project extends Component {
 											className="plusIcon"
 											onClick={() => this.updateActive(task.id, task.task_level)}
 										/>
-
 										<FontAwesomeIcon
 											icon="trash"
 											className="trashIcon"
@@ -477,23 +488,38 @@ export class Project extends Component {
 											onClick={() => this.updateShow(task.id, task.task_level)}
 										/>
 									</div>
+
+									{/* start of parentTask nesting Ul list */}
 									<ul className={`currentUl ${this.checkShow(task.id, task.task_level, "show")}`}>
+										{/* form to add taskOne tasks to parentTask Ul*/}
 										<li className={`addForm ${this.checkActive(task.id, task.task_level)}`}>
 											<div className="taskGroup lvlOne">
 												{this.renderForm(task.task_level + 1, task.id)}
 											</div>
 										</li>
+
 										{this.state.taskOne.map((task1) => {
 											if (task1.parent_id === task.id) {
+												// ********************************* taskOne tasks *********************************
 												return (
 													<li key={task1.id}>
-														<div className="taskGroup lvlOne">
+														<div
+															className={`taskGroup  ${
+																task1.completion_status === true ? "completedColor" : "lvlOne"
+															}`}
+														>
+															{/* taskOne link & title */}
 															<NavLink
 																to={{
 																	pathname: `/Task/${task1.id}`,
 																	state: {
 																		route: "taskOne",
-																		taskList: this.state.taskTwo,
+																		route2: "parentTask",
+																		route3: "taskTwo",
+																		parentTask: this.state.parentTask,
+																		taskOne: this.state.taskOne,
+																		taskTwo: this.state.taskTwo,
+																		taskThree: this.state.taskThree,
 																		project_id: this.state.project_id,
 																		project_name: this.state.project.project_name,
 																		task: task1,
@@ -505,6 +531,8 @@ export class Project extends Component {
 															</NavLink>
 
 															{TaskCount(task1.id, this.state.taskTwo)}
+
+															{/* taskOne action buttons */}
 															<FontAwesomeIcon
 																icon={
 																	this.state.activeIdOne.includes(task1.id)
@@ -529,6 +557,8 @@ export class Project extends Component {
 																onClick={() => this.updateShow(task1.id, task1.task_level)}
 															/>
 														</div>
+
+														{/* start of taskOnes nesting Ul list */}
 														<ul
 															className={`currentUl ${this.checkShow(
 																task1.id,
@@ -536,6 +566,7 @@ export class Project extends Component {
 																"show"
 															)}`}
 														>
+															{/* form to add taskTwo tasks to taskOne Ul*/}
 															<li
 																className={`addForm ${this.checkActive(
 																	task1.id,
@@ -548,15 +579,28 @@ export class Project extends Component {
 															</li>
 															{this.state.taskTwo.map((task2) => {
 																if (task2.parent_id === task1.id) {
+																	// ********************************* taskTwo tasks *********************************
 																	return (
 																		<li key={task2.id}>
-																			<div className="taskGroup lvlTwo">
+																			<div
+																				className={`taskGroup  ${
+																					task1.completion_status === true
+																						? "completedColor"
+																						: "lvlTwo"
+																				}`}
+																			>
+																				{/* taskTwo link & title */}
 																				<NavLink
 																					to={{
 																						pathname: `/Task/${task2.id}`,
 																						state: {
 																							route: "taskTwo",
-																							taskList: this.state.taskThree,
+																							route2: "taskOne",
+																							route3: "taskThree",
+																							parentTask: this.state.parentTask,
+																							taskOne: this.state.taskOne,
+																							taskTwo: this.state.taskTwo,
+																							taskThree: this.state.taskThree,
 																							project_id: this.state.project_id,
 																							project_name: this.state.project.project_name,
 																							task: task2,
@@ -568,6 +612,8 @@ export class Project extends Component {
 																				</NavLink>
 
 																				{TaskCount(task2.id, this.state.taskThree)}
+
+																				{/* taskTwo action buttons */}
 																				<FontAwesomeIcon
 																					icon={
 																						this.state.activeIdTwo.includes(task2.id)
@@ -598,6 +644,8 @@ export class Project extends Component {
 																					}
 																				/>
 																			</div>
+
+																			{/* start of taskTwos nesting Ul list */}
 																			<ul
 																				className={`currentUl ${this.checkShow(
 																					task2.id,
@@ -605,27 +653,47 @@ export class Project extends Component {
 																					"show"
 																				)}`}
 																			>
+																				{/* form to add taskThree tasks to taskTwo Ul*/}
 																				<li
 																					className={`addForm ${this.checkActive(
 																						task2.id,
 																						task2.task_level
 																					)}`}
 																				>
-																					<div className="taskGroup lvlThree">
+																					<div
+																						className={`taskGroup  ${
+																							task1.completion_status === true
+																								? "completedColor"
+																								: "lvlThree"
+																						}`}
+																					>
 																						{this.renderForm(task2.task_level + 1, task2.id)}
 																					</div>
 																				</li>
 																				{this.state.taskThree.map((task3) => {
 																					if (task3.parent_id === task2.id) {
+																						// ********************************* taskThree tasks *********************************
 																						return (
 																							<li key={task3.id}>
-																								<div className="taskGroup lvlThree">
+																								<div
+																									className={`taskGroup  ${
+																										task3.completion_status === true
+																											? "completedColor"
+																											: "lvlThree"
+																									}`}
+																								>
+																									{/* taskThree link & title */}
 																									<NavLink
 																										to={{
 																											pathname: `/Task/${task3.id}`,
 																											state: {
 																												route: "taskThree",
-																												taskList: [],
+																												route2: "taskTwo",
+																												route3: "taskThree",
+																												parentTask: this.state.parentTask,
+																												taskOne: this.state.taskOne,
+																												taskTwo: this.state.taskTwo,
+																												taskThree: this.state.taskThree,
 																												project_id: this.state.project_id,
 																												project_name: this.state.project
 																													.project_name,
@@ -637,6 +705,7 @@ export class Project extends Component {
 																										<h4>{task3.title} </h4>
 																									</NavLink>
 
+																									{/* taskThree action button */}
 																									<FontAwesomeIcon
 																										icon="trash"
 																										className="trashIconEnd"
