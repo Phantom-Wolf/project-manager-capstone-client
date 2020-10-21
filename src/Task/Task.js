@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "./Task.css";
+import SideNav from "../Sidenav/SideNav";
 import config from "../config";
 import TokenService from "../services/token-service";
-import SideNav from "../Sidenav/SideNav";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TaskApiService from "./TaskService";
@@ -54,18 +54,7 @@ export class Task extends Component {
 			color: color,
 		});
 
-		const {
-			parentTask,
-			taskOne,
-			taskTwo,
-			taskThree,
-			project_name,
-			project_id,
-			task,
-			route,
-			route2,
-			route3,
-		} = this.props.location.state;
+		const { task, route, route3 } = this.props.location.state;
 
 		this.setState({
 			task: task,
@@ -76,14 +65,15 @@ export class Task extends Component {
 
 		let notePath = TaskApiService.getNewRoute(route);
 
-		fetch(`${config.API_ENDPOINT}/api/${notePath}/getAll`, {
-			method: "POST",
-			headers: {
-				"content-type": "application/json",
-				authorization: `bearer ${TokenService.getAuthToken()}`,
-			},
-			body: JSON.stringify(reqBody),
-		})
+		
+            fetch(`${config.API_ENDPOINT}/api/${notePath}/getAll`, {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                    authorization: `bearer ${TokenService.getAuthToken()}`,
+                },
+                body: JSON.stringify(reqBody),
+            })
 			.then((response) => {
 				if (!response.ok) {
 					throw response;
@@ -100,28 +90,6 @@ export class Task extends Component {
 					error: err.message,
 				});
 			});
-
-		// fetch(`${config.API_ENDPOINT}/api/Users/id`, {
-		// 	method: "GET",
-		// 	headers: { authorization: `bearer ${TokenService.getAuthToken()}` },
-		// })
-		// 	.then((Res) => {
-		// 		if (!Res.ok) {
-		// 			throw new Error("Something went wrong, please try again later.");
-		// 		}
-		// 		return Res.json();
-		// 	})
-		// 	.then((response) => {
-		// 		this.setState({
-		// 			data: response.id,
-		// 			name: response.username,
-		// 		});
-		// 	})
-		// 	.catch((err) => {
-		// 		this.setState({
-		// 			error: err.message,
-		// 		});
-		// 	});
 
 		let stateData = {
 			project_id: task.project_id,
@@ -155,7 +123,9 @@ export class Task extends Component {
 					});
 				});
 		}
-	}
+    }
+    
+    // ***** creates path for completion *****
 
 	renderCompletionText() {
 		let completion_status = this.state.task.completion_status;
@@ -224,7 +194,29 @@ export class Task extends Component {
 		}
 
 		return htmlOutput;
-	}
+    }
+    
+    // ***** update state *****
+
+	toggleNoteOn = () => {
+		this.setState({
+			toggleNote: !this.state.toggleNote,
+		});
+	};
+
+	toggleNoteOff = () => {
+		this.setState({
+			toggleNote: false,
+		});
+	};
+
+	updateNoteValue(note) {
+		this.setState({
+			addNoteValue: note,
+		});
+    }
+    
+    // ***** action API services *****
 
 	handleUpdate() {
 		let { route, task } = this.props.location.state;
@@ -255,24 +247,6 @@ export class Task extends Component {
 			});
 	}
 
-	toggleNoteOn = () => {
-		this.setState({
-			toggleNote: !this.state.toggleNote,
-		});
-	};
-
-	toggleNoteOff = () => {
-		this.setState({
-			toggleNote: false,
-		});
-	};
-
-	updateNoteValue(note) {
-		this.setState({
-			addNoteValue: note,
-		});
-	}
-
 	handleNoteSubmit = (e) => {
 		e.preventDefault();
 		const data = {};
@@ -289,9 +263,9 @@ export class Task extends Component {
 			date_created: new Date(),
 		};
 
-		console.log(TokenService.getAuthToken());
+		let postRoute = TaskApiService.getNewRoute(this.props.location.state.route);
 
-		TaskApiService.postNote(this.props.location.state.route, stateData)
+		TaskApiService.postNote(postRoute, stateData)
 			.then((response) => {
 				if (!response.ok) {
 					throw response;
@@ -310,8 +284,6 @@ export class Task extends Component {
 			});
 
 		e.target.reset();
-
-		console.log(stateData);
 	};
 
 	handDeleteNote(id) {
@@ -321,10 +293,10 @@ export class Task extends Component {
 			.then((res) => {
 				if (!res.ok) {
 					throw new Error("Something went wrong, please try again later.");
-                }
-                this.setState({
-                    notes: this.state.notes.filter(note => note.id !== id)
-                })
+				}
+				this.setState({
+					notes: this.state.notes.filter((note) => note.id !== id),
+				});
 			})
 			.catch((err) => {
 				this.setState({
@@ -344,7 +316,10 @@ export class Task extends Component {
 						className="projectReturn"
 					>
 						<header>
-							<h2>{this.props.location.state.project_name}</h2>
+							<h2>
+								<FontAwesomeIcon icon="folder-open" className="treeIcon" />
+								{this.props.location.state.project_name}
+							</h2>
 						</header>
 					</NavLink>
 

@@ -22,9 +22,14 @@ export class Landing extends Component {
 		return (
 			<section className="landingBody">
 				<header>
-					<h1>Proje<span className = "headerX">X</span></h1>
-					<Register />
+					<h1>
+						Proje<span className="headerX">X</span>
+					</h1>
 				</header>
+				<p className="appStory"> A complex project is less daunting and easier to manage when it can be broken
+				down into smaller parts. <br/>You can do that and more with Projex, a straightforward web application
+				that makes every project manageable.</p>
+				<Register />
 			</section>
 		);
 	}

@@ -16,6 +16,11 @@
     background-color: rgb(39, 90, 92);
 }
 
+.taskBody h2:hover {
+    cursor: pointer;
+    color: rgb(182, 182, 182);
+}
+
 .projectReturn {
     text-decoration: none;
     color: whitesmoke;
@@ -28,16 +33,15 @@
 
 .taskBody section {
     margin: 20px auto 0;
-    width: 600px;
+    width: 90vw;
     text-align: center;
 }
 
 .taskName {
-    width: 400px;
+    width: 80vw;
     margin: 10px auto;
     padding: 15px 0px;
     border-radius: 5px;
-    /* background-color: rgb(39, 90, 92); */
 }
 
 .actionSpan {
@@ -62,12 +66,11 @@
 
 .addNoteText:hover {
     cursor: pointer;
-    /* text-align: right; */
 }
 
 .taskNotes Ul {
     list-style: none;
-    width: 600px;
+    width: 90vw;
     min-height: 200px;
     max-height: 400px;
     background-color: rgb(10, 10, 15);
@@ -95,7 +98,6 @@
 }
 
 .noteForm button {
-    /* width: 10px; */
     color: whitesmoke;
     background-color: transparent;
     border-style: none;
@@ -149,14 +151,29 @@
     text-align: start;
 }
 
+@media only screen and (min-width: 700px) {
+    .taskBody section {
+        width: 600px;
+    }
+    .taskName {
+        width: 400px;
+    }
+    .taskNotes Ul {
+        width: 600px;
+    }
+}
+
 @media only screen and (min-width: 1100px) {
     .taskBody {
-        display: flex;
         flex-direction: row;
-        margin: auto;
-        min-height: 100vh;
-        height: 100%;
-        background-color: rgb(17, 17, 31);
-        color: whitesmoke;
+    }
+    .taskBody section {
+        width: 600px;
+    }
+    .taskName {
+        width: 400px;
+    }
+    .taskNotes Ul {
+        width: 600px;
     }
 }

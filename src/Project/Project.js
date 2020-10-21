@@ -190,7 +190,7 @@ export class Project extends Component {
 		});
 	};
 
-	// ***** helpers *****
+	// ***** accordian/ conditional show helpers *****
 
 	checkActive(id, lvl) {
 		let route;
@@ -256,29 +256,7 @@ export class Project extends Component {
 		return route;
 	}
 
-	renderForm(lvl, parent) {
-		let outputHTML = "";
-		outputHTML = (
-			<form className="newProjectForm" onSubmit={this.handleSubmit}>
-				<input
-					name="newTaskName"
-					type="text"
-					required
-					className="newProjectInput"
-					onChange={(e) => this.updateNewTask(e.target.value)}
-				></input>
-				<input name="level" value={lvl} hidden />
-				<input name="parent" value={parent} hidden />
-				<button className="formButton" type="submit">
-					Add Task
-				</button>
-			</form>
-		);
-
-		return outputHTML;
-	}
-
-	// ***** new task API *****
+	// ***** action api services *****
 
 	handleSubmit = (e) => {
 		e.preventDefault();
@@ -330,8 +308,6 @@ export class Project extends Component {
 
 		e.target.reset();
 	};
-
-	// ***** delete task *****
 
 	handleDelete(id, lvl) {
 		console.log(id, lvl);
@@ -385,7 +361,31 @@ export class Project extends Component {
 					error: err.message,
 				});
 			});
-	};
+	};	
+	
+	// ***** new task form *****
+	
+	renderForm(lvl, parent) {
+		let outputHTML = "";
+		outputHTML = (
+			<form className="newProjectForm" onSubmit={this.handleSubmit}>
+				<input
+					name="newTaskName"
+					type="text"
+					required
+					className="newProjectInput"
+					onChange={(e) => this.updateNewTask(e.target.value)}
+				></input>
+				<input name="level" value={lvl} hidden />
+				<input name="parent" value={parent} hidden />
+				<button className="formButton" type="submit">
+					Add Task
+				</button>
+			</form>
+		);
+
+		return outputHTML;
+	}
 
 	render() {
 		let meta = this.props.match.params.project_id;
@@ -396,7 +396,10 @@ export class Project extends Component {
 				<section>
 					<header>
 						<div className="projectName">
-							<h2><FontAwesomeIcon icon="folder-open" className="treeIcon" />{this.state.project.project_name}</h2>
+							<h2>
+								<FontAwesomeIcon icon="folder-open" className="treeIcon" />
+								{this.state.project.project_name}
+							</h2>
 							<FontAwesomeIcon
 								icon={this.state.toggle ? "window-close" : "plus-square"}
 								className="headerPlus"
@@ -584,7 +587,7 @@ export class Project extends Component {
 																		<li key={task2.id}>
 																			<div
 																				className={`taskGroup  ${
-																					task1.completion_status === true
+																					task2.completion_status === true
 																						? "completedColor"
 																						: "lvlTwo"
 																				}`}

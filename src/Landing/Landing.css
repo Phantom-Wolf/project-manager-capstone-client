@@ -10,12 +10,38 @@
 }
 
 .landingBody h1 {
-    color: whitesmoke;
     text-align: center;
     font-size: 50px;
+}
+
+.appStory {
+    text-align: left;
+    margin: 40px auto ;
+    max-width: 400px;
+    font-size: 20px;
+
 }
 
 /* .headerX {
     font-size: 70px;
     
 } */
+
+@media only screen and (min-width: 700px) { 
+
+
+    .appStory {
+        text-align: center;
+    
+    }
+
+    .appStory {
+        text-align: center;
+        margin: 40px auto ;
+        max-width: 600px;
+        font-size: 20px;
+    
+    }
+
+
+}

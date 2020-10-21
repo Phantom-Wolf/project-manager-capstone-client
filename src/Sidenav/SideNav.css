@@ -1,28 +1,26 @@
 .projectList {
     background-color: rgb(10, 10, 15);
-    /* width: 15vw; */
     min-width: 100vw;
     margin: 0px 10px 20px 0px;
     border-radius: 0px 5px 5px 0px;
-    /* justify-content: center; */
     color: whitesmoke;
-    /* text-align: center; */
     padding-left: 10px;
     height: fit-content;
 }
 
 .barsIcon {
-    display:block;
+    display: block;
     color: whitesmoke;
     text-align: left;
     margin: 15px auto 10px 10px;
+    height: 30px;
 }
 
 .hideNav {
     display: none;
 }
 
-.showNav{
+.showNav {
     display: block;
 }
 
@@ -55,18 +53,17 @@
 
 .projectListUL li {
     list-style: none;
+    hyphens: auto;
 }
 
 .navProjectTitle {
     display: flex;
     flex-direction: row;
     align-items: baseline;
-    
 }
 
 .navProjectTitle p {
     font-size: 17px;
-    /* padding-bottom: 3px; */
 }
 
 .navProjectTitle, .logout {
@@ -86,8 +83,6 @@
 .treeIcon {
     display: inline-block;
     margin-right: 10px;
-    /* color: rgb(17, 17, 31); */
-  
 }
 
 .sideNavInput {
@@ -111,22 +106,22 @@
 }
 
 @media only screen and (min-width: 1100px) {
-    .projectList {
-        background-color: rgb(10, 10, 15);
+    .projectList {     
         width: 15vw;
         min-width: 230px;
         margin: 20px 10px 20px 0px;
         border-radius: 0px 5px 5px 0px;
-        justify-content: center;
-        color: whitesmoke;
         text-align: center;
         height: 95vh;
     }
-
-    .navProjectTitle {
-        justify-content: center;
+    .projectListUL {
+        margin: 0;
+        padding-left: 40px;
+        padding-right: 10px;
     }
-
+    .projectLinkName {
+        text-align: start;
+    }
     .barsIcon {
         display: none;
     }

@@ -2,6 +2,7 @@ import config from "../config";
 import TokenService from "../services/token-service";
 
 const TaskApiService = {
+	
 	updateTaskComplete(route, id, stateData) {
 		return fetch(`${config.API_ENDPOINT}/api/${route}/${id}`, {
 			method: "PATCH",
@@ -12,27 +13,18 @@ const TaskApiService = {
 			},
 		});
 	},
+	getAllNotes(route, stateData) {
+		fetch(`${config.API_ENDPOINT}/api/${route}/getAll`, {
+			method: "POST",
+			headers: {
+				"content-type": "application/json",
+				authorization: `bearer ${TokenService.getAuthToken()}`,
+			},
+			body: JSON.stringify(stateData),
+		})
+	},
 	postNote(route, stateData) {
-		let newRoute;
-
-		switch (route) {
-			case "parentTask":
-				newRoute = "parentNote";
-				break;
-			case "taskOne":
-				newRoute = "noteOne";
-				break;
-			case "taskTwo":
-				newRoute = "noteTwo";
-				break;
-			case "taskThree":
-				newRoute = "noteThree";
-				break;
-			default:
-				newRoute = "";
-		}
-
-		return fetch(`${config.API_ENDPOINT}/api/${newRoute}`, {
+		return fetch(`${config.API_ENDPOINT}/api/${route}`, {
 			method: "POST",
 			body: JSON.stringify(stateData),
 			headers: {
@@ -40,17 +32,17 @@ const TaskApiService = {
 				authorization: `bearer ${TokenService.getAuthToken()}`,
 			},
 		});
-    },
-    
-    deleteNote(route,id) {
-       return  fetch(`${config.API_ENDPOINT}/api/${route}/${id}`, {
+	},
+
+	deleteNote(route, id) {
+		return fetch(`${config.API_ENDPOINT}/api/${route}/${id}`, {
 			method: "DELETE",
 			headers: {
 				"content-type": "application/json",
 				authorization: `bearer ${TokenService.getAuthToken()}`,
 			},
-		})
-    },
+		});
+	},
 
 	getCheck(id, list) {
 		let count = 0;

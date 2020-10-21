@@ -19,7 +19,7 @@ export class SideNav extends Component {
 			toggle: false,
 		},
 		activeProject: null,
-		toggleBars: true,
+		toggleBars: false,
 	};
 
 	// ***** pre-load *****
@@ -62,7 +62,6 @@ export class SideNav extends Component {
 					.catch((err) => {});
 			})
 			.catch((err) => {});
-		// fetch contributor projects from DB
 
 		window.onresize = () => {
 			if (window.innerWidth > 1100) {
@@ -71,6 +70,13 @@ export class SideNav extends Component {
 				});
 			}
 		};
+
+		console.log("window", window.location);
+		if (window.location.pathname === "/Home") {
+			this.setState({
+				toggleBars: true,
+			});
+		}
 	}
 
 	// ***** update state *****
@@ -158,16 +164,9 @@ export class SideNav extends Component {
 	// ***** rendering *****
 
 	render() {
-		// return <section className="SideNav">{this.populateProjects()}</section>;
-
 		return (
 			<div className="projectList">
-				<FontAwesomeIcon
-					icon="bars"
-					className="barsIcon"
-					onClick={this.handleDisplay}
-					
-				/>
+				<FontAwesomeIcon icon="bars" className="barsIcon" onClick={this.handleDisplay} />
 				<div
 					className={
 						this.state.toggleBars === true || window.innerWidth > 1100 ? "showNav" : "hideNav"
@@ -204,19 +203,8 @@ export class SideNav extends Component {
 								<li key={project.id}>
 									<Link to={`/Project/${project.id}`} className="navProjectTitle">
 										<FontAwesomeIcon icon="folder-open" className="treeIcon" />
-										<p>{project.project_name}</p>
+										<p className="projectLinkName">{project.project_name}</p>
 									</Link>
-								</li>
-							);
-						})}
-					</ul>
-					<ul className="contributorProjectListUL">
-						{this.state.contributor_projects.map((project) => {
-							return (
-								<li key={project.id}>
-									<NavLink to={`/Project/${project.id}`} className="navProjectTitle">
-										<p>{project.project_name}**</p>
-									</NavLink>
 								</li>
 							);
 						})}
