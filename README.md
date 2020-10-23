@@ -1,11 +1,11 @@
-# Capstone Project Title: Project Manager
+# Capstone Project Title
 
-Complete any project more easily with a simple, organized structure and completion system.
+ProjeX: Complete any project more easily with a simple, organized structure and completion system.
 
 ## 1. Working Prototype
 
 You can access a working prototype of the React app here: https://project-manager-capstone-client.vercel.app/Landing
-and Node app here: (no link yet)
+and Github: https://github.com/Phantom-Wolf/project-manager-capstone-client
 
 ## 2. User Stories
 
