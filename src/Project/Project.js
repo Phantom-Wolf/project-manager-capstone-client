@@ -40,7 +40,7 @@ export class Project extends Component {
 	handleReload = (project_id) => {
 		ProjectApiService.grabProject(project_id)
 			.then((data) => {
-				console.log("data", data);
+			
 				this.setState({
 					project: data,
 				});
@@ -54,10 +54,10 @@ export class Project extends Component {
 		const taskList = ["parentTask", "taskOne", "taskTwo", "taskThree"];
 
 		for (let i = 0; i < taskList.length; i++) {
-			console.log(taskList[i]);
+			
 
 			let taskPackage = { project_id: parseInt(project_id) };
-			console.log(taskPackage);
+			
 			fetch(`${config.API_ENDPOINT}/api/${taskList[i]}/getAll`, {
 				method: "POST",
 				headers: {
@@ -74,7 +74,7 @@ export class Project extends Component {
 					return response.json();
 				})
 				.then((data) => {
-					console.log("completed task:", taskList[i]);
+					
 					if (data.totalItems === 0) {
 						this.setState({
 							[taskList[i]]: [],
@@ -310,11 +310,7 @@ export class Project extends Component {
 	};
 
 	handleDelete(id, lvl) {
-		console.log(id, lvl);
-
 		let route = this.setPath(lvl);
-
-		console.log(route);
 
 		fetch(`${config.API_ENDPOINT}/api/${route}/${id}`, {
 			method: "DELETE",
@@ -388,8 +384,7 @@ export class Project extends Component {
 	}
 
 	render() {
-		let meta = this.props.match.params.project_id;
-		console.log(meta);
+
 		return (
 			<div className="projectBody">
 				<SideNav />
@@ -461,7 +456,7 @@ export class Project extends Component {
 													task: task,
 												},
 											}}
-											className="navProjectTitle"
+											className="taskTitle"
 										>
 											<h4>{task.title} </h4>
 										</NavLink>
@@ -528,7 +523,7 @@ export class Project extends Component {
 																		task: task1,
 																	},
 																}}
-																className="navProjectTitle"
+																className="taskTitle"
 															>
 																<h4>{task1.title} </h4>
 															</NavLink>
@@ -609,7 +604,7 @@ export class Project extends Component {
 																							task: task2,
 																						},
 																					}}
-																					className="navProjectTitle"
+																					className="taskTitle"
 																				>
 																					<h4>{task2.title} </h4>
 																				</NavLink>
@@ -703,7 +698,7 @@ export class Project extends Component {
 																												task: task3,
 																											},
 																										}}
-																										className="navProjectTitle"
+																										className="taskTitle"
 																									>
 																										<h4>{task3.title} </h4>
 																									</NavLink>

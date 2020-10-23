@@ -95,8 +95,6 @@ export class SignIn extends Component {
 			user_password: data.loginPassword,
 		};
 
-		console.log(stateData);
-
 		this.setState({ error: null });
 		fetch(`${config.API_ENDPOINT}/api/auth/login`, {
 			method: "POST",

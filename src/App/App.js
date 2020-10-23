@@ -27,7 +27,6 @@ export class App extends Component {
 				<PrivateRoute path="/Home" component={Home} />
 				<PrivateRoute path="/Task/:task_id" component={Task} />
 				<PrivateRoute path="/Project/:project_id" component={Project} />
-				
 			</Switch>
 		);
 	}

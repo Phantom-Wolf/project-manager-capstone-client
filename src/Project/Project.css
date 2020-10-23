@@ -1,8 +1,9 @@
 /* ***** general styling ***** */
 
+
+
 h1, h2, h3, h4, p {
     font-family: Sarabun;
-    color: whitesmoke;
 }
 
 .projectBody {
@@ -48,6 +49,16 @@ h1, h2, h3, h4, p {
 .projectBody ul {
     list-style: none;
     padding-left: 15px;
+}
+
+.taskTitle {
+    color: whitesmoke;
+    text-decoration: none;
+}
+
+.taskTitle:hover {
+    cursor: pointer;
+    color: rgb(182, 182, 182);
 }
 
 /* ***** fontawesome icon positioning ***** */

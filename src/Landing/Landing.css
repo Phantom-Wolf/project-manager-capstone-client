@@ -7,6 +7,7 @@
     background-color: rgb(17, 17, 31);
     display: flex;
     flex-direction: column;
+    color: whitesmoke;
 }
 
 .landingBody h1 {
@@ -15,32 +16,20 @@
 }
 
 .appStory {
-    text-align: left;
+    text-align: center;
     margin: 40px auto ;
     max-width: 400px;
     font-size: 20px;
-
 }
-
-/* .headerX {
-    font-size: 70px;
-    
-} */
 
 @media only screen and (min-width: 700px) { 
 
 
     .appStory {
         text-align: center;
-    
-    }
-
-    .appStory {
-        text-align: center;
         margin: 40px auto ;
         max-width: 600px;
         font-size: 20px;
-    
     }
 
 

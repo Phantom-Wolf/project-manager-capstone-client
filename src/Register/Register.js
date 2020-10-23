@@ -117,8 +117,6 @@ export class Register extends Component {
 			}
 		}
 
-		console.log(newUser);
-
 		this.setState({ error: null });
 		fetch(`${config.API_ENDPOINT}/api/users`, {
 			method: "POST",

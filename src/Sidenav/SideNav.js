@@ -71,7 +71,6 @@ export class SideNav extends Component {
 			}
 		};
 
-		console.log("window", window.location);
 		if (window.location.pathname === "/Home") {
 			this.setState({
 				toggleBars: true,
@@ -100,8 +99,6 @@ export class SideNav extends Component {
 		e.preventDefault();
 		let newProject = { project_name: this.state.new_project.value };
 
-		console.log("new Project", newProject);
-
 		fetch(`${config.API_ENDPOINT}/api/projects`, {
 			method: "POST",
 			body: JSON.stringify(newProject),
@@ -122,7 +119,6 @@ export class SideNav extends Component {
 				if (data.totalItems === 0) {
 					throw new Error("No data found");
 				}
-				console.log("data", data);
 				this.setState({
 					projects: this.state.projects.concat(data),
 				});
