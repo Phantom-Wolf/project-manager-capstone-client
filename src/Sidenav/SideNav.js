@@ -41,25 +41,6 @@ export class SideNav extends Component {
 				this.setState({
 					projects: response,
 				});
-
-				// contributor call
-
-				fetch(`${config.API_ENDPOINT}/api/contributor`, {
-					method: "GET",
-					headers: { authorization: `bearer ${TokenService.getAuthToken()}` },
-				})
-					.then((contributorRes) => {
-						if (!contributorRes.ok) {
-							throw new Error("Something went wrong, please try again later.");
-						}
-						return contributorRes.json();
-					})
-					.then((response) => {
-						this.setState({
-							contributor_projects: response,
-						});
-					})
-					.catch((err) => {});
 			})
 			.catch((err) => {});
 
