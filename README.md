@@ -1,6 +1,6 @@
-# Capstone Project Title
+# ProjeX
 
-ProjeX: Complete any project more easily with a simple, organized structure and completion system.
+Complete any project more easily with a simple, organized structure and completion system.
 
 ## 1. Working Prototype
 
