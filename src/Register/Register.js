@@ -2,6 +2,7 @@
 
 import React, { Component } from "react";
 import ValidateForm from "../ValidateForm/ValidateForm";
+import TokenService from "../services/token-service";
 import config from "../config";
 import "./Register.css";
 
@@ -129,21 +130,57 @@ export class Register extends Component {
 				if (!response.ok) {
 					throw response;
 				}
-				// ... convert it to json
+
 				return response.json();
 			})
-			// use the json api output
-			.then((data) => {
-				//check if there is meaningfull data
 
-				// check if there are no results
+			.then((data) => {
 				if (data.totalItems === 0) {
 					throw new Error("No data found");
 				}
 
-				this.setState({
-					success: "Registration successful! You may now sign in.",
-				});
+				console.log(data);
+
+				let stateData = {
+					user_email: this.state.email.value,
+					user_password: this.state.password.value,
+				};
+
+				fetch(`${config.API_ENDPOINT}/api/auth/login`, {
+					method: "POST",
+					body: JSON.stringify(stateData),
+					headers: {
+						"content-type": "application/json",
+					},
+				})
+					.then((response) => {
+						if (!response.ok) {
+							throw response;
+						}
+						return response.json();
+					})
+
+					.then((data) => {
+						TokenService.saveAuthToken(data.authToken);
+
+						if (data.totalItems === 0) {
+							throw new Error("No data found");
+						}
+						window.location = "/Home";
+					})
+					.catch((error) => {
+						try {
+							error.json().then((body) => {
+								this.setState({
+									error: body.error,
+								});
+							});
+						} catch (e) {
+							this.setState({
+								error: error,
+							});
+						}
+					});
 
 				document.getElementById("registerForm").reset();
 			})
