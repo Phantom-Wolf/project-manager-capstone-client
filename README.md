@@ -95,23 +95,7 @@ The app's functionality includes:
 - Back-End: Node.js, Express.js, Mocha, Chai, RESTful API Endpoints, Postgres
 - Development Environment: Heroku, DBeaver
 
-## 5. Front-end Structure - React Components Map
-
-- **Index.js** (stateless)
-  - **App.js** (stateful)
-    - **LandingPage.js** (stateless)
-      - **Register.js** (stateful)
-    - **Login.js** (stateful)
-    - **Home.js** (stateless)
-      - **sideNav.js** (stateful)
-    - **Project.js** (stateful)
-      - **sideNav.js** (stateful)
-      - **ProjectSerive.js** (stateless)
-    - **Task.js** (stateful)
-      - **sideNav.js** (stateful)
-      - **TaskService.js** (stateless)
-
-## 6. Back-end Structure - Business Objects
+## 5. Back-end Structure - Business Objects
 
 - work in progress, subject to change
 
@@ -191,7 +175,655 @@ The app's functionality includes:
   - note
   - date_created
 
-## 7. API Documentation
+## 6. API Documentation
+
+#### Users
+
+post, /api/users/, new user data
+
+    request:
+    {
+      username: String,
+      user_email: String,
+      user_password: String
+    }
+
+    response: [
+    {
+      username: String,
+      user_email: String,
+      user_password: String
+    }
+    ]
+
+get, /api/users/:id, get user
+
+    request:
+    {
+      user_id: id
+    }
+
+    response: [
+    {
+      username: String,
+      user_email: String,
+      user_password: String
+    }
+    ]
+
+#### Auth
+
+post, /api/auth/login, user credentials for login
+
+    request:
+    {
+      user_email: String,
+      user_password: String
+    }
+
+    response: webToken
+
+#### Project
+
+get, /api/projects, get all projects by user id
+
+    response: [
+    {
+      id: id,
+      project_name: String,
+      user_id: id
+    }
+    ]
+
+post, /api/projects, insert project
+
+    request:
+    {
+      project_name: String,
+      user_id: id
+    }
+
+    response: [
+    {
+      id: id,
+      project_name: String,
+      user_id: id
+    }
+    ]
+
+get, /api/projects/:project_id, get project by id
+
+    request:
+    {
+      project_id: id
+    }
+
+    response: [
+    {
+      id: id,
+      project_name: String,
+      user_id: id
+    }
+    ]
+
+delete, /api/projects/:project_id, delete project by id
+
+    request:
+    {
+      project_id: id
+    }
+
+    response: 204
+
+#### ParentTask
+
+post, /api/parentTask/getAll, get all tasks by project_id
+
+    request:
+    {
+      project_id: id
+    }
+
+    response: [
+    {
+      id: id,
+      project_id: id,
+      title: String,
+      task_level: Integer,
+      completion_status: Boolean
+    }
+    ]
+
+post, /api/parentTask, insert task
+
+    request:
+    {
+      project_id: id,
+      title: String,
+      task_level: Integer,
+      completion_status: Boolean
+    }
+
+    response: [
+    {
+      id: id,
+      project_id: id,
+      title: String,
+      task_level: Integer,
+      completion_status: Boolean
+    }
+    ]
+
+get, /api/parentTask/:parentTask_id, get task by id
+
+    request:
+    {
+      id: id
+    }
+
+    response: [
+    {
+      id: id,
+      project_id: id,
+      title: String,
+      task_level: Integer,
+      completion_status: Boolean
+    }
+    ]
+
+patch, /api/parentTask/:parentTask_id, update task by id
+
+    request:
+    {
+      project_id: id,
+      title: String,
+      task_level: Integer,
+      completion_status: !Boolean
+    }
+
+    response: [
+    {
+      id: id,
+      project_id: id,
+      title: String,
+      task_level: Integer,
+      completion_status: Boolean
+    }
+    ]
+
+delete, /api/aprentTask/:parentTask_id, delete task by id
+
+    request:
+    {
+      id: id
+    }
+
+    response: 204
+
+#### ParentNote
+
+post, /api/parentNote/getAll, get all notes by parent_id
+
+    request:
+    {
+      parent_id: id
+    }
+
+    response: [
+    {
+      id: id,
+      parent_id: id,
+      user_id: id,
+      note: String,
+      date_created: TIMESTAMP
+    }
+    ]
+
+post, /api/parentNote, insert note
+
+    request:
+    {
+      parent_id: id,
+      user_id: id,
+      note: String,
+      date_created: TIMESTAMP
+    }
+
+    response: [
+    {
+      id: id,
+      parent_id: id,
+      user_id: id,
+      note: String,
+      date_created: TIMESTAMP
+    }
+    ]
+
+delete, /api/parentNote/:parentNote_id, delete note by id
+
+    request:
+    {
+      id: id
+    }
+
+    response: 204
+
+#### taskOne
+
+post, /api/taskOne/getAll, get all tasks by project_id
+
+    request:
+    {
+      project_id: id
+    }
+
+    response: [
+    {
+      id: id,
+      project_id: id,
+      parent_id: id,
+      title: String,
+      task_level: Integer,
+      completion_status: Boolean
+    }
+    ]
+
+post, /api/taskOne, insert task
+
+    request:
+    {
+      project_id: id,
+      parent_is: id,
+      title: String,
+      task_level: Integer,
+      completion_status: Boolean
+    }
+
+    response: [
+    {
+      id: id,
+      project_id: id,
+      parent_id: id,
+      title: String,
+      task_level: Integer,
+      completion_status: Boolean
+    }
+    ]
+
+get, /api/taskOne/:taskOne_id, get task by id
+
+    request:
+    {
+      id: id
+    }
+
+    response: [
+    {
+      id: id,
+      project_id: id,
+      parent_id: id,
+      title: String,
+      task_level: Integer,
+      completion_status: Boolean
+    }
+    ]
+
+patch, /api/taskOne/:taskOne_id, update task by id
+
+    request:
+    {
+      project_id: id,
+      parent_is: id,
+      title: String,
+      task_level: Integer,
+      completion_status: !Boolean
+    }
+
+    response: [
+    {
+      id: id,
+      project_id: id,
+      parent_id: id,
+      title: String,
+      task_level: Integer,
+      completion_status: Boolean
+    }
+    ]
+
+delete, /api/taskOne/:taskOne_id, delete task by id
+
+    request:
+    {
+      id: id
+    }
+
+    response: 204
+
+#### noteOne
+
+post, /api/noteOne/getAll, get all notes by parent_id
+
+    request:
+    {
+      parent_id: id
+    }
+
+    response: [
+    {
+      id: id,
+      parent_id: id,
+      user_id: id,
+      note: String,
+      date_created: TIMESTAMP
+    }
+    ]
+
+post, /api/noteOne, insert note
+
+    request:
+    {
+      parent_id: id,
+      user_id: id,
+      note: String,
+      date_created: TIMESTAMP
+    }
+
+    response: [
+    {
+      id: id,
+      parent_id: id,
+      user_id: id,
+      note: String,
+      date_created: TIMESTAMP
+    }
+    ]
+
+delete, /api/noteOne/:noteOne_id, delete note by id
+
+    request:
+    {
+      id: id
+    }
+
+    response: 204
+
+#### taskTwo
+
+post, /api/taskTwo/getAll, get all tasks by project_id
+
+    request:
+    {
+      project_id: id
+    }
+
+    response: [
+    {
+      id: id,
+      project_id: id,
+      parent_id: id,
+      title: String,
+      task_level: Integer,
+      completion_status: Boolean
+    }
+    ]
+
+post, /api/taskTwo, insert task
+
+    request:
+    {
+      project_id: id,
+      parent_is: id,
+      title: String,
+      task_level: Integer,
+      completion_status: Boolean
+    }
+
+    response: [
+    {
+      id: id,
+      project_id: id,
+      parent_id: id,
+      title: String,
+      task_level: Integer,
+      completion_status: Boolean
+    }
+    ]
+
+get, /api/taskTwo/:taskTwo_id, get task by id
+
+    request:
+    {
+      id: id
+    }
+
+    response: [
+    {
+      id: id,
+      project_id: id,
+      parent_id: id,
+      title: String,
+      task_level: Integer,
+      completion_status: Boolean
+    }
+    ]
+
+patch, /api/taskTwo/:taskTwo_id, update task by id
+
+    request:
+    {
+      project_id: id,
+      parent_is: id,
+      title: String,
+      task_level: Integer,
+      completion_status: !Boolean
+    }
+
+    response: [
+    {
+      id: id,
+      project_id: id,
+      parent_id: id,
+      title: String,
+      task_level: Integer,
+      completion_status: Boolean
+    }
+    ]
+
+delete, /api/taskTwo/:taskTwo_id, delete task by id
+
+    request:
+    {
+      id: id
+    }
+
+    response: 204
+
+#### noteTwo
+
+post, /api/noteTwo/getAll, get all notes by parent_id
+
+    request:
+    {
+      parent_id: id
+    }
+
+    response: [
+    {
+      id: id,
+      parent_id: id,
+      user_id: id,
+      note: String,
+      date_created: TIMESTAMP
+    }
+    ]
+
+post, /api/noteTwo, insert note
+
+    request:
+    {
+      parent_id: id,
+      user_id: id,
+      note: String,
+      date_created: TIMESTAMP
+    }
+
+    response: [
+    {
+      id: id,
+      parent_id: id,
+      user_id: id,
+      note: String,
+      date_created: TIMESTAMP
+    }
+    ]
+
+delete, /api/noteTwo/:noteTwo_id, delete note by id
+
+    request:
+    {
+      id: id
+    }
+
+    response: 204
+
+#### taskThree
+
+post, /api/taskThree/getAll, get all tasks by project_id
+
+    request:
+    {
+      project_id: id
+    }
+
+    response: [
+    {
+      id: id,
+      project_id: id,
+      parent_id: id,
+      title: String,
+      task_level: Integer,
+      completion_status: Boolean
+    }
+    ]
+
+post, /api/taskThree, insert task
+
+    request:
+    {
+      project_id: id,
+      parent_is: id,
+      title: String,
+      task_level: Integer,
+      completion_status: Boolean
+    }
+
+    response: [
+    {
+      id: id,
+      project_id: id,
+      parent_id: id,
+      title: String,
+      task_level: Integer,
+      completion_status: Boolean
+    }
+    ]
+
+get, /api/taskThree/:taskThree_id, get task by id
+
+    request:
+    {
+      id: id
+    }
+
+    response: [
+    {
+      id: id,
+      project_id: id,
+      parent_id: id,
+      title: String,
+      task_level: Integer,
+      completion_status: Boolean
+    }
+    ]
+
+patch, /api/taskThree/:taskThree_id, update task by id
+
+    request:
+    {
+      project_id: id,
+      parent_is: id,
+      title: String,
+      task_level: Integer,
+      completion_status: !Boolean
+    }
+
+    response: [
+    {
+      id: id,
+      project_id: id,
+      parent_id: id,
+      title: String,
+      task_level: Integer,
+      completion_status: Boolean
+    }
+    ]
+
+delete, /api/taskThree/:taskThree_id, delete task by id
+
+    request:
+    {
+      id: id
+    }
+
+    response: 204
+
+#### noteThree
+
+post, /api/noteThree/getAll, get all notes by parent_id
+
+    request:
+    {
+      parent_id: id
+    }
+
+    response: [
+    {
+      id: id,
+      parent_id: id,
+      user_id: id,
+      note: String,
+      date_created: TIMESTAMP
+    }
+    ]
+
+post, /api/noteThree, insert note
+
+    request:
+    {
+      parent_id: id,
+      user_id: id,
+      note: String,
+      date_created: TIMESTAMP
+    }
+
+    response: [
+    {
+      id: id,
+      parent_id: id,
+      user_id: id,
+      note: String,
+      date_created: TIMESTAMP
+    }
+    ]
+
+delete, /api/noteThree/:noteThree_id, delete note by id
+
+    request:
+    {
+      id: id
+    }
+
+    response: 204
 
 ## Screenshots
 
